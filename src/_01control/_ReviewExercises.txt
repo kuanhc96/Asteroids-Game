@@ -9,4 +9,73 @@ R1.5 The following are all benefits to using Java over machine code:
 4/ Java was designed for networking and the Internet in mind; and it is generally safer than machine code
 5/ With the introduction of Java8, Java is now a declarative and functional programming language.
 
+R2.4 
+1/ s = s0 + v0 * t + 0.5 * g * Math.pow(t, 2);
+2/ FV = PV * Math.pow((1 + INT / 100), YRS);
+3/ G = 4 * Math.pow(Math.PI, 2) * Math.pow(a, 3) / Math.pow(p, 2) / (m1 + m2);
+4/ c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - 2 * a * b * Math.cos(gamma));
+
+R2.7
+a/ 8
+b/ 1
+c/ 17
+d/ 17.5
+e/ 17
+f/ 18
+
+R2.14
+2 is an int
+2.0 is a double
+'2' is a char
+"2" and "2.0" are both strings
+
+R2.17
+read user input as a string
+extract first char in the string 
+use for loop to loop through each char in the string
+if the current char is ' ', i.e., a blank space, extract the next char in the string
+
+R2.22
+str = "SunMonTueWedThuFriSat"
+       012345678901234567890
+n = 4
+startingPosition = 4 * 3 = 12
+the 12th char in the string is T
+the substring starting at position 12 with length 3 is Thu
+
+R3.19
+Read numerical grade
+if grade < 60, return "F"
+else if grade < 70, return "D"
+else if grade < 80, return "C"
+else if grade < 90, return "B"
+else, return "A"
+
+R3.30
+b is false and x is 0
+a/ false
+b/ true
+c/ true
+d/ true
+e/ false
+f/ false
+g/ false
+h/ true
+
+R4.12
+for loop -- use when number of loops is known
+while loop -- use when number of loops needed is unknown, but condition for which looping needs to stop is known
+do-while loop -- similar to while loop, but is used when a part of a program must be executed
+
+R4.14
+print "Su M T W Th F Sa"
+use for loop to loop through i = 1 to i = 31
+first print blank spaces under Su, M, T on first line
+if i % 7 == 1, print under W
+else if i % 7 == 2, print under Th
+else if i % 7 == 3, print under F
+else if i % 7 == 4, print under Sa and swith to next line
+else if i % 7 == 5, print under Su
+else if i % 7 == 6, print under M
+else, print under T
 
