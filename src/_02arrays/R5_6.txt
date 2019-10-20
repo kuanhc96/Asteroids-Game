@@ -1,0 +1,3 @@
+An argument is what a method accepts to perform certain operations. The return value is what a method passes to the rest of the program as a result of its operations.
+A method can take in an infinite number of arguments, but it can only have at most one return value.
+

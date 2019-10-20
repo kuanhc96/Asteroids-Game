@@ -1,0 +1,40 @@
+1. 
+for (int i = 0; i < ROWS; i++) {
+	for (int j = 0; j < COLUMNS; j++) {
+		values[i][j] = 0;
+	}
+}
+
+2.
+for (int i = 0; i < ROWS; i++) {
+	for (int j = 0; j < COLUMNS; j++) {
+		if (ROWS * COLUMNS % 2 == 1) {
+			values[i][j] = 0;
+		} else {
+			values[i][j] = 1;
+		}
+	}
+}
+
+3.
+for (int i = 0; i < COLUMNS; i++;) {
+	values[0][i] = 0;
+	values[ROWS - 1][i] = 0;
+}
+
+4.
+int sum = 0;
+for (int i = 0; i < ROWS; i++) {
+	for (int j = 0; j < COLUMNS; j++) {
+		sum += values[i][j];
+	}
+}
+
+5.
+for (int i = 0; i < ROWS; i++) {
+	for (int j = 0; j < COLUMNS; j++) {
+		System.out.print(values[i][j] + "\t");
+	}
+	System.out.println();
+}
+

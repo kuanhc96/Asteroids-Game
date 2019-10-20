@@ -1,0 +1,13 @@
+Create blank return string.
+Use for loop to loop through the phone number character by character.
+if character is an int or '-', add to return string
+if character is not and int:
+	if character is A or B or C, then add 2 to return string 
+	if character is D or E or F, then add 3 to return string
+	if character is G or H or I, then add 4 to return string
+	if character is J or K or L, then add 5 to return string
+	if character is M or N or O, then add 6 to return string
+	if character is P or Q or R or S, then add 7 to return string
+	if character is T or U or V, then add 8 to return string
+	is character is W or X or Y or Z, then add 9 to return string
+return the return string

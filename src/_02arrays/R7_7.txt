@@ -1,0 +1,11 @@
+checked exceptions are thrown at compile time, whereas unchecked exceptions are thrown at runtime.
+checked exceptions are anticipated and are handled by try-catch blocks or declared at the method header by "throws."
+unchecked exceptions are thrown unexpectedly when a program runs and causes the program to fail.
+
+for example:
+public String readFile(String fileName) throws FileNotFoundException {
+	// this is a checked exception
+	...
+}
+
+an IndexOutOfBounds Exception is an unchecked exception

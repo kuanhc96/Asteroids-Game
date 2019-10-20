@@ -1,0 +1,1 @@
+Checked exceptions can be caught so that a different block of the program can be run

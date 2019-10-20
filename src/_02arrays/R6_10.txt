@@ -1,0 +1,7 @@
+a. for (int value : values) {total = total + value;}
+b. for (int value : Arrays.copyOfRange(values, 1, values.length)) {total = total + value;}
+c. for (int value : values) {
+	   if (value == target) {
+		   return value;
+	   }
+   }

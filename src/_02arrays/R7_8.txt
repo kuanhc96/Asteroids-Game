@@ -1,0 +1,1 @@
+IndexOutOfBounds Exception is an unchecked exception that does not need to be declared

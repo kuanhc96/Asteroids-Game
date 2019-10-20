@@ -1,0 +1,12 @@
+let maxRun = 0
+let currentRun = 1
+use for loop to loop through each element in the sequence of numbers ending at the second to last element:
+	if array[i] == array[i+1]:
+		currentRun++
+	else:
+		if currentRun > maxRun:
+			maxRun = currentRun
+		currentRun = 1
+
+return maxRun
+		

@@ -1,0 +1,4 @@
+int i, int b fall into the main method.
+int n falls into the f method.
+int b, a different variable to the int b in the main method, falls into the scope of the g mthod.
+The program eventually will print 26, where i = 10 and b = 16. 

@@ -1,0 +1,4 @@
+InputMismatchException
+NoSuchElementException
+IllegalStateException
+these are all unchecked exceptions that are thrown by the Scanner class

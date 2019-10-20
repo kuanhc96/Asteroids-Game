@@ -1,0 +1,2 @@
+throws file does not exist exception when trying to read file that does not exist;
+creates file of length 0 if trying to write into a file that does not exist.

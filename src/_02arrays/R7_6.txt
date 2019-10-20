@@ -1,0 +1,2 @@
+throwing exceptions causes the program to stop running
+catching exceptions allows a different section of the program to be run 
