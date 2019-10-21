@@ -11,8 +11,9 @@ public class CSVReader {
 	public int numberOfRows() throws FileNotFoundException {
 		int numRows = 0;
 		Scanner scan = new Scanner(csvFile);
-		while (scan.hasNext()) {
+		while (scan.hasNextLine()) {
 			numRows++;
+         scan.nextLine();
 		}
 		return numRows;
 	}
