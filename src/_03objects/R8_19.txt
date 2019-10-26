@@ -1,0 +1,1 @@
+The "this" referece is used to distinguish between class variables declared in the fields of a class and explicit parameters that are passed to a constructor with the same name as the fields of the class. This can be avoided by simply declaring the explicit parameter names as something different to the fields of the class, but it is a convention to write code in this way. 

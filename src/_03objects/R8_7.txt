@@ -1,0 +1,1 @@
+Instance methods are accessed by a client program through an object, whereas a static method is defined in the client program and does not need to be accessed by instantiating some class.

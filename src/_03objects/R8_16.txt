@@ -1,0 +1,1 @@
+Private variable are hidden to the extent that they cannot be called or modified by client programs. They of course can be viewed by humans by simply opening the file, but they cannot be accessed if the sourcecode is hidden from the client,which is often the case.

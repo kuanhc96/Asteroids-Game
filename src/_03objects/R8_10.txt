@@ -1,0 +1,3 @@
+An instance method can only have one inplicit variable, which is the variable that refers to the class in which the method resides. 
+A static method does not have any implicit parameters. It can have as many explicit parameters as it wants, however.
+An instance method can have as many explicit parameters as it needs, i.e., infinite.

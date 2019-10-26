@@ -1,0 +1,1 @@
+Mutator methods are used to set the private fields of an object to some value, whereas accessor methods are used to access the value of private fields of an object.

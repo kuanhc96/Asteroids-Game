@@ -1,0 +1,2 @@
+An interface defines the variables, constants and methods that a series of related classes must have for them to run properly. If a class "implements" an interface, all of the variables and methods that are defined in the interface must be defined in the class in question. Further, the constants that are defined in the interface can be accessed by the class that implements it.
+This is useful because it is often important to have a series of classes have consistent methods so that they can work together.

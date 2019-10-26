@@ -1,0 +1,1 @@
+Encapsulation hides private variables from other classes. This is useful becauseprogrammers often do not want clients to have access to data in a given class, lest the client tampers with these variables. Private variables, if tampered with by clients, often will cause the program to run improperly.

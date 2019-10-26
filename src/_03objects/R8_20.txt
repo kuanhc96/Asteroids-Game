@@ -1,0 +1,4 @@
+The number 0 is a number; 
+The "null" reference is a constant that means that no value exists. A primitive data type cannot be declared as null; 
+"false" is a boolean value that means that a conditional statement does not hold;
+The empty string "" is a String object that has no length and no characters contained in it.

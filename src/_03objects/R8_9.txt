@@ -1,0 +1,2 @@
+Explicit parameters are parameters that are passed to a method of an object to get it running. An implicit parameter, on the other hand, is one that is used to refer to the objet itself, i.e., this. 
+
