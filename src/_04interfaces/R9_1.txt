@@ -1,0 +1,11 @@
+Superclass/subclass
+a. Employee/Manager
+b. Student/GraduateStudent
+c. Person/Student
+d. Employee/Professor
+e. BankAccount/CheckingAccount
+f. Vehicle/Car
+g. Vehicle/Minivan
+h. Car/Minivan
+i. Vehicle/Truck
+

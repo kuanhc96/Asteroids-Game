@@ -1,0 +1,5 @@
+Casting can occur between any classes that have an inheritance relation. A superclass can be casted to
+a subclass and vise versa. This is not necessarily true for primitive types. Among primitive types, types
+that require greater memory space than a smaller primitive type cannot be casted to the smaller primitive
+type, but the opposite can be done. For instance, a byte can be casted as an int, but an int cannot be
+casted as a byte.

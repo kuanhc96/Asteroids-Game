@@ -1,0 +1,7 @@
+The functionalities of these appliances are too different
+such that if classes were to be built for each of them,
+the variables assigned to each class and the methods applied
+in each of them would be too different for inheritance to be useful.
+In fact, inheritance in this case will cause the programmer to face
+many limitations since the consistency that inheritance provides
+sacrifices flexibility.
