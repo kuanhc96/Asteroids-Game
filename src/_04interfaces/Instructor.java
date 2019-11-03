@@ -14,4 +14,9 @@ public class Instructor extends Person {
     public void setSalary(int salary) {
         this.salary = salary;
     }
+
+    @Override
+    public String toString() {
+        return getName() + " earns " + getSalary() + " per year and was born in " + getBirthYear();
+    }
 }

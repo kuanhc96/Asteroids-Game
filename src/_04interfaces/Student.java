@@ -14,5 +14,10 @@ public class Student extends Person {
     public void setMajor(String major) {
         this.major = major;
     }
+
+    @Override
+    public String toString() {
+        return getName() + " majors in " + getMajor() + " and was born in " + getBirthYear();
+    }
 }
 

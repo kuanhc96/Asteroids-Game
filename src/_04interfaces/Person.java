@@ -16,4 +16,9 @@ public class Person {
     public int getBirthYear() {
         return birthYear;
     }
+
+    @Override
+    public String toString() {
+        return getName() + " was born in " + getBirthYear();
+    }
 }
