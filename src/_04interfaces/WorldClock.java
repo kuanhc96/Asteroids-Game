@@ -12,7 +12,7 @@ public class WorldClock extends Clock {
         if (super.getHours() + offset < 0) {
             return 24 + (super.getHours() + offset);
         } else {
-            return (super.getHours() + offset);
+            return (super.getHours() + offset) - 24;
         }
 
     }
