@@ -1,0 +1,16 @@
+Event Event -- (Source: https://courses.cs.washington.edu/courses/cse341/98au/java/jdk1.2beta4/docs/api/java/awt/event/ActionEvent.html)
+Component source: the object that originated the event
+int id: An int that identifies the event
+String command: a string that may specify a command (possibly one of several) associated with the event
+int modifiers: the modifier keys held down during this action
+
+Mouse Event -- (Source: https://docs.oracle.com/cd/E17802_01/j2se/javase/6/jcp/beta/apidiffs/java/awt/event/MouseEvent.html)
+Component source: the object that originated the event
+int id: An int that identifies the event
+long when: the time at which the event occurs
+int modifiers: the modifier keys held down during this action
+int x: the 2-D x position at which the mouse event occurs
+int y: the 2_D y position at which the mouse event occurs
+int clickCount: the number of times the mouse is clicked in a single event
+popupTrigger: a boolean, true if this event is a trigger for a popup menu
+button: which of the mouse buttons has changed state. NOBUTTON, BUTTON1, BUTTON2 or BUTTON3.

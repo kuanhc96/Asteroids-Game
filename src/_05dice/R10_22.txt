@@ -1,0 +1,1 @@
+Allow colors to be passed to the constructor of the flag object. These colors can be used to graph the two colors on the two sides of the flag.

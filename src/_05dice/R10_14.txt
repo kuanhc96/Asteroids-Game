@@ -1,0 +1,2 @@
+addCaretListener is inherited from JTextComponent;
+addAncestorListener is inherited from JComponent.

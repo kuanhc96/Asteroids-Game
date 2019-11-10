@@ -1,0 +1,2 @@
+The various layout managers allow users to arrange components automatically in a consistent way, avoiding tediously entering
+the x and y positions of components.

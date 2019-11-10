@@ -1,0 +1,3 @@
+There is only 1 method in ActionListener because it is used to test whether a component in a GUI is clicked or not.
+There are 5 methods in MouseListener because there are 5 possible ways for a mouse to interact with a GUI.
+A mouse can press, released, clicked, hovered into, or hovered out of, a component in a GUI

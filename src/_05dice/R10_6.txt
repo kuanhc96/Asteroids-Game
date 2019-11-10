@@ -1,0 +1,2 @@
+Event listeners are objects that are passed to event source objects.
+Methods in an event listener are called by an event source when an event occurs.

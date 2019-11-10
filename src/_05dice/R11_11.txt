@@ -1,0 +1,2 @@
+Radio buttons need to be placed into a button group because only one can be selected at a time. On the other hand,
+multiple checkboxes can be selected at a time, or none at all.

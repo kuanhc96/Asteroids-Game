@@ -1,0 +1,3 @@
+An event is any user input that a program receives. It could be a click on a button, text passed to a program, or the mouse moving across a GUI.
+An even source is the user-interface, such as a button, that causes an even to occur. The clicking of a button is an event that is cause by a button.
+An event listener has the instructions that a program ought to perform when an even occurs.

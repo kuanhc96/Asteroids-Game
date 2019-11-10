@@ -1,0 +1,2 @@
+An action event keeps track of events that occur on components of a GUI. A mouse event keeps track of the mouse that the
+user is controlling.
