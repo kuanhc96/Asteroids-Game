@@ -38,7 +38,7 @@ public class PigFrame extends JFrame {
                     totalScore = 0;
                 }
             }
-            createLabels();
+            roundScoreLabel.setText("Current Score: " + roundScore);
         }
     }
 
@@ -48,6 +48,8 @@ public class PigFrame extends JFrame {
             totalScore += roundScore;
             historyTextArea.append("Score Recorded. You Currently Have: " + totalScore + " Points\n");
             roundScore = 0;
+            roundScoreLabel.setText("Current Score: " + 0);
+            totalScoreLabel.setText("Total Score: " + totalScore);
         }
     }
 
@@ -107,11 +109,6 @@ public class PigFrame extends JFrame {
         add(mainPanel);
     }
 
-    private void createLabels() {
-        roundScoreLabel.setText("Current Score: " + roundScore);
-        roundScoreLabel.setText("Total Score: " + totalScore);
-
-    }
 
 
 }
