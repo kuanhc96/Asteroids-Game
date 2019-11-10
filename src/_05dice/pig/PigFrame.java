@@ -32,11 +32,6 @@ public class PigFrame extends JFrame {
                 roundScore += roll;
                 historyTextArea.append("You Rolled a " + roll + "! Current Score Of This Round: " + roundScore +
                         ". You Will have " + (roundScore + totalScore)  + " In Total If You Hold Now. \n");
-                if (totalScore + roundScore >= GOAL_SCORE) {
-                    historyTextArea.append("You Won!!! Your Total Score Was" + (roundScore + totalScore) + "\n");
-                    roundScore = 0;
-                    totalScore = 0;
-                }
             }
             roundScoreLabel.setText("Current Score: " + roundScore);
         }
@@ -48,6 +43,12 @@ public class PigFrame extends JFrame {
             totalScore += roundScore;
             historyTextArea.append("Score Recorded. You Currently Have: " + totalScore + " Points\n");
             roundScore = 0;
+            if (totalScore >= GOAL_SCORE) {
+                historyTextArea.append("You Won!!! Your Total Score Was" + (totalScore) + "\n");
+                historyTextArea.append("Game Reset\n");
+                roundScore = 0;
+                totalScore = 0;
+            }
             roundScoreLabel.setText("Current Score: " + 0);
             totalScoreLabel.setText("Total Score: " + totalScore);
         }
