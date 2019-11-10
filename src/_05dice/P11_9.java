@@ -1,13 +1,12 @@
-package _05dice.pig;
+package _05dice;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class PigDriver {
-
+public class P11_9 {
     public static void main(String[] args) {
-        //pig game here
-        JFrame jframe = new PigFrame();
-        jframe.setTitle("Toss The Pigs GUI");
+        JFrame jframe = new ClickCircle();
+        jframe.setTitle("P11_9: Click Circle");
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.setVisible(true);
 
