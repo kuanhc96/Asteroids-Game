@@ -2,6 +2,106 @@
 # Use this file to answer Review Exercises from the Big Java textbook
 #########################################################################
 
+R12.1 OO Analysis and Design
+    Understand requirements --> discover classes and define behavior of each class --> define relationships (dependency, aggregation, inheritance)
+    --> document method behavior --> implement
+
+R12.2 OO Analysis and Design
+    Figure out what nouns are used to define the requirements of the problem
+
+R12.3 OO Analysis and Design
+    Figure out what verbs the nouns need to perform in the requirements of the problem
+R12.8 Relationships
+            Class: Coin                                     Class: CashRegister
+    Responsibilities:    Collaborators:             Responsibilities:       Collaborators:
+    represents various   CashRegister               Keeps track of a        Coin
+    different types of                              transaction from a
+    coins and their                                 user, including
+    monetary values                                 amount paid, change
+                                                    owed, and items
+                                                    ordered
+R12.9 CRC Quiz
+            Class: Quiz                                     Class: Question
+    Responsibilities:    Collaborators:             Responsibilities:       Collaborators:
+    Contains a list of   Question                   Contains a question     Quiz
+    questions. Can                                  and its answer.
+    display questions                               Checks if the answer
+    and add more to                                 by a user matches the
+    itself                                          answer defined in the
+                                                    class
+R12.10 UML Quiz
+
+                +----------+     (Aggregation)    +----------+
+                |   Quiz   |  <>----------------- | Question |
+                +----------+                      +----------+
+                                                        ^
+                                                        | (Inheritance)
+                                                        |
+                                               +----------------+
+                                               | ChoiceQuestion |
+                                               +----------------+
+R12.11 CRC Cards
+
+                      +---------+
+             +------> | Country | <-----+
+             |        +---------+       |            +------------+
+             |           ^              |            | Comparator |
+             |(extends)  |(extends)     | (extends)  +------------+
+             |           |              |                 ^
+         +-------+  +------------+  +----------+          |
+         |  Area |  | Population |  |  Density |          | (Implements)
+         +-------+  +------------+  +----------+          |
+             |             |              |               |
+             +-------------+--------------+---------------+
+
+            Class: Area                                     Class: Population                              Class: Density                           Class: Country
+    Responsibilities:    Collaborators:             Responsibilities:       Collaborators:      Responsibilities:       Collaborators:      Responsibilities:       Collaborators:
+    Keeps track of       Country                    Keeps track of          Country             Keeps track of          Country             All subclasses          Area, Population,
+    country and its                                 country and its                             country and its                             mentioned               Density
+    Area.                                           population.                                 population.                                 previously extend
+    Implement the                                   Implements the                              Implements the                              this class.
+    Comparator class                                Comparator class                            Comparator class                            Keeps track of the
+    to define default                               to define default                           to define default                           name of a country.
+    sorting behavior                                sorting behavior                            sorting behavior                            By polymorphism,
+    based on area.                                  based on population.                        based on population                         same Country can be
+                                                                                                density.                                    sorted based on
+                                                                                                                                            different criteria
+                                                                                                                                            (area, population,
+                                                                                                                                            population density)
+                                                                                                                                            based on how it is
+                                                                                                                                            instantiated.
+R12.13 UML Diagram
+                   +-----------------+
+             +--<> | Vending Machine | <>-------+
+             |     +-----------------+          |
+             |                                  |
+             |                                  |
+         +-------+                         +----------+
+         |  Coin |                         |  Product |
+         +-------+                         +----------+
+R12.14 UML Diagram
+         +----------+
+         | Employee | <>-------+
+         +----------+          |
+                               |
+                               |
+                         +------------+
+                         |  Paychecks |
+                         +------------+
+
+R12.15 ULM Diagram
+                                                        +----------+
+                         +---------------------------<> | Invoices |
+                         |                              +----------+
+                         |
+                   +----------+
+             +--<> | Customer | <>-------+
+             |     +----------+          |
+             |                           |
+             |                           |
+         +---------+                   +----------+
+         | Address |                   |  Product |
+         +---------+                   +----------+
 
 
 
