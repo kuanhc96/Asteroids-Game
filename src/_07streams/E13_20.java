@@ -10,7 +10,7 @@ public class E13_20 {
 
     public static void main(String[] args) {
         Set<String> methods = new HashSet<String>();
-        listPaymentMethods(methods, 100, 0, 0, 0, 0);
+        listPaymentMethods(methods, 23, 0, 0, 0, 0);
         for (String method : methods) {
             System.out.println(method);
         }

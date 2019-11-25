@@ -6,16 +6,76 @@ Review Exercises: 3 points each. Starting on page 619 of textbook Big Java. Plac
 ReviewExercises.txt located in the root of this project.
 
 R13.1 Terms
+    a. A method calling itself
+    b. Using loops to access elements of a collection
+    c. A recursive function that does not have a base case solution, resulting in stack overflow
+    d. a private method that performs the actual recursion; called by the public method that the client can use
+       to perform a task using recursion.
+
 R13.2 Smallest value
+    have a method that takes the "current value" and the "current smallest value" as arguments.
+    base case: if at the end of the list, return "current smallest value"
+    recursive case: if "current value" is smaller than "current smallest value" then assign "current smallest value"
+        to "current value". The recurse by passing the next value in the list as "current value" and
+        "current smallest value" as "current smallest value" to the recursive function.
+
 R13.4 Sort array of numbers
+Recursively divide the array into several sub-arrays, compare the smallest values in each array, and combine them
+recursively (mergeSort).
+
 R13.6 Exponents recursively
+F(1) = x
+F(n) = F(n - 1) * x
+
 R13.8 Factorial recursively
+F(1) = 1
+F(n) = F(n - 1) * n
 
 R19.1 operations on Stream<String>
+    a. stream
+        .filter(v -> v.charAt(0) == 'a')
+        .count();
+    b. stream
+        .filter(v -> v.charAt(0) == 'a')
+        .filter(v -> v.length() > 10)
+        .count()
+    c. boolean moreThan100 =
+        stream
+        .filter(v -> v.charAt(0) == 'a')
+        .filter(v -> v.length() > 10)
+        .count() >= 100
+
 R19.3 How to read Java8
+first statement -- filter only first 100 words and count them (there will be 100 of them)
+second statement -- take first 100 words in list, then filter them (result <= 100)
+
 R19.6 Transforming values
+// string to double
+Stream<Double> streamDouble = stream
+                                .map(v -> "" + v);
+// double to string
+Stream<String> streamString = stream
+                                .map(v -> Double.parseDouble(v));
+
 R19.11 Terminal operations
+terminal operations in this chapter:
+toArray()
+collect()
+count()
+forEach()
+min()
+max()
+findAny()
+findFirst()
+
+primitive streams in this chapter:
+IntStream, LongStream, and DoubleStream
+
 R19.12 Collectors
+Collectors.toList()
+Collectors.toSet()
+Collectors.joining()
+Collectors.groupingBy()
 
 
 
