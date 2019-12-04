@@ -17,6 +17,7 @@ public class CommandCenter {
 	private boolean bPlaying;
 	private boolean bPaused;
 	private long levelEpochTime;
+	private long gameEpochTime;
 //	private long levelPausedEpochTime; // updated everytime pause is called
 //	private long levelPausedElapsedTime; // accumulated amount of time paused
 //	private long elapsedTimeCounter;
@@ -51,6 +52,7 @@ public class CommandCenter {
 		setNumFalcons(3);
 		spawnFalcon(true);
 		this.levelEpochTime = System.currentTimeMillis();
+		this.gameEpochTime = System.currentTimeMillis();
 		this.gameTime = 30000;
 //		this.levelPausedEpochTime = 0;
 //		this.levelPausedElapsedTime = 0;
@@ -62,7 +64,6 @@ public class CommandCenter {
 	public  void spawnFalcon(boolean bFirst) {
 		if (getNumFalcons() != 0) {
 			falShip = new Falcon();
-
 			opsList.enqueue(falShip, CollisionOp.Operation.ADD);
 			if (!bFirst)
 			    setNumFalcons(getNumFalcons() - 1);
@@ -182,6 +183,10 @@ public class CommandCenter {
 //		levelPausedElapsedTime += elapsedTimeCounter;
 		return System.currentTimeMillis() - levelEpochTime; // - levelPausedElapsedTime;
 
+	}
+
+	public long getTotalElapsedTime() {
+		return System.currentTimeMillis() - gameEpochTime;
 	}
 
 	public long getGameTime() {

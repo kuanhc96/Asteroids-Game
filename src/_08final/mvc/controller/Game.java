@@ -44,7 +44,7 @@ public class Game implements Runnable, KeyListener {
 
 	// for possible future use
 	// HYPER = 68, 					// d key
-	// SHIELD = 65, 				// a key arrow
+	SHIELD = 65, 				// a key arrow
 	// NUM_ENTER = 10, 				// hyp
 	 SPECIAL = 70; 					// fire special weapon;  F key
 
@@ -203,9 +203,11 @@ public class Game implements Runnable, KeyListener {
 					if (movFloater instanceof Up1Floater) {
 						CommandCenter.getInstance().setNumFalcons(CommandCenter.getInstance().getNumFalcons() + 1);
 					} else if (movFloater instanceof BloomingShotsFloater) {
-						CommandCenter.getInstance().getFalcon().setBloomingShots(CommandCenter.getInstance().getFalcon().getBloomingShots() + 10);
+						CommandCenter.getInstance().getFalcon().setBloomingShots(CommandCenter.getInstance().getFalcon().getBloomingShots() + 15);
 					} else if (movFloater instanceof CruiseShotsFloater) {
 						CommandCenter.getInstance().getFalcon().setCruiseShots(CommandCenter.getInstance().getFalcon().getCruiseShots() + 10);
+					} else if (movFloater instanceof ShieldFloater) {
+						CommandCenter.getInstance().getFalcon().setnShield(CommandCenter.getInstance().getFalcon().getnShield() + 1);
 					}
 					Sound.playSound("pacman_eatghost.wav");
 	
@@ -342,18 +344,19 @@ public class Game implements Runnable, KeyListener {
 	private void spawnNewShipFloater() {
 		//make the appearance of power-up dependent upon ticks and levels
 		//the higher the level the more frequent the appearance
-
-		if (nTick % (SPAWN_NEW_SHIP_FLOATER - nLevel * 3) == 0) {
+		if (getTick() % (SPAWN_NEW_SHIP_FLOATER - nLevel * 7) == 0) {
 			Random r = new Random();
 			int temp = r.nextInt(100);
 			//CommandCenter.getInstance().getMovFloaters().enqueue(new NewShipFloater());
-			if (temp < 33) {
+			if (temp < 25) {
 				CommandCenter.getInstance().getOpsList().enqueue(new BloomingShotsFloater(), CollisionOp.Operation.ADD);
-			} else if (temp < 66) {
+			} else if (temp < 50) {
 				CommandCenter.getInstance().getOpsList().enqueue(new Up1Floater(), CollisionOp.Operation.ADD);
 
-			} else {
+			} else if (temp < 75) {
 				CommandCenter.getInstance().getOpsList().enqueue(new CruiseShotsFloater(), CollisionOp.Operation.ADD);
+			} else {
+				CommandCenter.getInstance().getOpsList().enqueue(new ShieldFloater(), CollisionOp.Operation.ADD);
 			}
 		}
 	}
@@ -377,6 +380,8 @@ public class Game implements Runnable, KeyListener {
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
 			} else if (CommandCenter.getInstance().getLevel() < 5) {
 				CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(0), CollisionOp.Operation.ADD);
+			} else {
+				CommandCenter.getInstance().setNumFalcons(0);
 			}
 		}
 	}
@@ -398,16 +403,23 @@ public class Game implements Runnable, KeyListener {
 	
 	private void checkNewLevel(){
 		
-		if (isLevelClear() ){
+		if (isLevelClear()){
 			if (CommandCenter.getInstance().getFalcon() !=null)
 				CommandCenter.getInstance().getFalcon().setProtected(true);
 			
 			spawnAsteroids(CommandCenter.getInstance().getLevel() + 1);
 			CommandCenter.getInstance().setLevel(CommandCenter.getInstance().getLevel() + 1);
 			CommandCenter.getInstance().resetTimer();
+
+			if (CommandCenter.getInstance().getLevel() > 1) {
+				CommandCenter.getInstance().getFalcon().setbFirst(true);
+			}
 			if (CommandCenter.getInstance().getLevel() % 3 == 0) {
 				CommandCenter.getInstance().setGameTime(CommandCenter.getInstance().getGameTime() + 10000);
-				CommandCenter.getInstance().setNumFalcons(CommandCenter.getInstance().getNumFalcons() + 1);
+			} else if (CommandCenter.getInstance().getLevel() % 4 == 0) {
+				CommandCenter.getInstance().setNumFalcons(CommandCenter.getInstance().getNumFalcons() + 2);
+			} else if (CommandCenter.getInstance().getLevel() % 2 == 0) {
+				CommandCenter.getInstance().getFalcon().setCruiseShots(CommandCenter.getInstance().getFalcon().getCruiseShots() + 5);
 			}
 
 		}
@@ -469,7 +481,6 @@ public class Game implements Runnable, KeyListener {
 
 			// possible future use
 			// case KILL:
-			// case SHIELD:
 			// case NUM_ENTER:
 
 			default:
@@ -526,7 +537,9 @@ public class Game implements Runnable, KeyListener {
 					bMuted = !bMuted;
 				}
 				break;
-				
+			case SHIELD:
+				CommandCenter.getInstance().getFalcon().setProtected(true);
+				CommandCenter.getInstance().getFalcon().setnShield(CommandCenter.getInstance().getFalcon().getnShield() - 1) ;
 				
 			default:
 				break;

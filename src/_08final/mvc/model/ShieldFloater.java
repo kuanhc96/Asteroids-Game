@@ -2,10 +2,11 @@ package _08final.mvc.model;
 
 import java.awt.*;
 
-public class BloomingShotsFloater extends NewShipFloater {
-    public BloomingShotsFloater() {
+public class ShieldFloater extends NewShipFloater {
+    public ShieldFloater() {
         super();
-        setColor(Color.CYAN);
+        setColor(Color.BLUE);
+
     }
 
     @Override
@@ -13,6 +14,7 @@ public class BloomingShotsFloater extends NewShipFloater {
         super.draw(g);
         g.setColor(getColor());
         g.fillOval((int) (getCenter().getX() - getRadius()), (int) (getCenter().getY() - getRadius()), 2 * getRadius(), 2 * getRadius());
-        g.drawString("+15 Blooming Shots", (int) (getCenter().getX() - getRadius()), (int) (getCenter().getY() - getRadius()));
+        g.drawString("Shield", (int) (getCenter().getX() - getRadius()), (int) (getCenter().getY() - getRadius()));
     }
+
 }

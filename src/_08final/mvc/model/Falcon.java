@@ -38,6 +38,8 @@ public class Falcon extends Sprite {
 
 	private int cruiseShots;
 
+	private boolean bFirst;
+
 	// ==============================================================
 	// CONSTRUCTOR 
 	// ==============================================================
@@ -107,7 +109,10 @@ public class Falcon extends Sprite {
 		setProtected(true);
 		setFadeValue(0);
 		bloomingShots = 0;
-		cruiseShots = 10;
+		cruiseShots = 5;
+		nShield = 0;
+		bShield = false;
+		bFirst = true;
 	}
 	
 	
@@ -143,10 +148,15 @@ public class Falcon extends Sprite {
 
 		//implementing the fadeInOut functionality - added by Dmitriy
 		if (getProtected()) {
-			setFadeValue(getFadeValue() + 3);
+			if (bFirst) {
+				setFadeValue(getFadeValue() + 3);
+			} else {
+				setFadeValue(getFadeValue() + 1);
+			}
 		}
 		if (getFadeValue() == 255) {
 			setProtected(false);
+			setbFirst(false);
 		}
 
 
@@ -273,6 +283,22 @@ public class Falcon extends Sprite {
 
 	public void setCruiseShots(int shots) {
 		cruiseShots = shots;
+	}
+
+	public int getnShield() {
+		return nShield;
+	}
+
+	public void setnShield(int nShield) {
+		this.nShield = nShield;
+	}
+
+	public boolean getbFirst() {
+		return bFirst;
+	}
+
+	public void setbFirst(boolean bFirst) {
+		this.bFirst = bFirst;
 	}
 
 	

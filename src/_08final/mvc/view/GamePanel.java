@@ -64,7 +64,7 @@ public class GamePanel extends Panel {
 	private void drawLevel(Graphics g) {
 		g.setColor(Color.white);
 		g.setFont(fnt);
-		g.drawString("LEVEL :  " + CommandCenter.getInstance().getLevel(), 10 * nFontWidth, nFontHeight);
+		g.drawString("LEVEL :  " + CommandCenter.getInstance().getLevel(), 7 * nFontWidth, nFontHeight);
 
 	}
 
@@ -75,11 +75,11 @@ public class GamePanel extends Panel {
 			g.drawString("Elapsed Time :  " + CommandCenter.getInstance().getElapsedTime() / 1000  / 60 + " : " +
 												CommandCenter.getInstance().getElapsedTime() / 1000 % 60 + " : " +
 												CommandCenter.getInstance().getElapsedTime() % 1000,
-												20 * nFontWidth, nFontHeight);
+												12 * nFontWidth, nFontHeight);
 		} else {
 			g.setColor(Color.white);
 			g.setFont(fnt);
-			g.drawString("Elapsed Time :  " + "00 : 00 : 000", 20 * nFontWidth, nFontHeight);
+			g.drawString("Elapsed Time :  " + "00 : 00 : 000", 12 * nFontWidth, nFontHeight);
 		}
 
 	}
@@ -91,17 +91,48 @@ public class GamePanel extends Panel {
 			g.drawString("Time Left :  " + (CommandCenter.getInstance().getGameTime() - CommandCenter.getInstance().getElapsedTime()) / 1000 / 60 + " : " +
 							(CommandCenter.getInstance().getGameTime() - CommandCenter.getInstance().getElapsedTime()) / 1000 % 60 + " : " +
 							(1000 - CommandCenter.getInstance().getElapsedTime() % 1000),
-					30 * nFontWidth, nFontHeight);
+					23 * nFontWidth, nFontHeight);
 		} else {
 			g.setColor(Color.white);
 			g.setFont(fnt);
 			g.drawString("Time Left :  " + (CommandCenter.getInstance().getGameTime() / 1000 / 60) + " : " +
 											(CommandCenter.getInstance().getGameTime() / 1000 % 60) + " : " +
-											(CommandCenter.getInstance().getGameTime() % 1000), 30 * nFontWidth, nFontHeight);
+											(CommandCenter.getInstance().getGameTime() % 1000), 23 * nFontWidth, nFontHeight);
 		}
 
 	}
 
+	private void drawCruiseShotsLeft(Graphics g) {
+		g.setColor(Color.white);
+		g.setFont(fnt);
+		if (CommandCenter.getInstance().isPlaying()) {
+			g.drawString("Cruise Shots left : " + CommandCenter.getInstance().getFalcon().getCruiseShots(), 30 * nFontWidth, nFontHeight);
+		} else {
+			g.drawString("Cruise Shots left : 5", 32 * nFontWidth, nFontHeight);
+		}
+	}
+
+	private void drawBloomingShotsLeft(Graphics g) {
+		g.setColor(Color.white);
+		g.setFont(fnt);
+		if (CommandCenter.getInstance().isPlaying()) {
+			g.drawString("Blooming Shots left : " + CommandCenter.getInstance().getFalcon().getBloomingShots(), 40 * nFontWidth, nFontHeight);
+		} else {
+			g.drawString("Blooming Shots left : 0", 40 * nFontWidth, nFontHeight);
+
+		}
+	}
+
+	private void drawShieldsLeft(Graphics g) {
+		g.setColor(Color.white);
+		g.setFont(fnt);
+		if (CommandCenter.getInstance().isPlaying()) {
+			g.drawString("Shields left : " + CommandCenter.getInstance().getFalcon().getnShield(), 48 * nFontWidth, nFontHeight);
+		} else {
+			g.drawString("Shields left : 0", 48 * nFontWidth, nFontHeight);
+
+		}
+	}
 
 	
 	@SuppressWarnings("unchecked")
@@ -120,6 +151,9 @@ public class GamePanel extends Panel {
 		drawLevel(grpOff);
 		drawElapsedTime(grpOff);
 		drawTimeLeft(grpOff);
+		drawCruiseShotsLeft(grpOff);
+		drawBloomingShotsLeft(grpOff);
+		drawShieldsLeft(grpOff);
 		
 		if (!CommandCenter.getInstance().isPlaying()) {
 			displayTextOnScreen();
