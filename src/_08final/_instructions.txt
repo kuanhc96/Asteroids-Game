@@ -99,7 +99,7 @@ morphing is done). You are not limited to two morphs, create several if you want
 
 Debris:
 The Sprite class has a method called public Point[] getObjectPoints(). You can use this to get the points which describe
-the Sprite an any given frame. It may be easier for you to create your own Debris class from scratch that implements
+the Sprite in any given frame. It may be easier for you to create your own Debris class from scratch that implements
 Movable, rather than extending Sprite, but either way will work.
 
  

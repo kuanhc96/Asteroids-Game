@@ -34,7 +34,10 @@ public class Falcon extends Sprite {
 
 	private Point[] pntFlames = new Point[FLAME.length];
 
-	
+	private int bloomingShots;
+
+	private int cruiseShots;
+
 	// ==============================================================
 	// CONSTRUCTOR 
 	// ==============================================================
@@ -103,6 +106,8 @@ public class Falcon extends Sprite {
 		//these are falcon specific
 		setProtected(true);
 		setFadeValue(0);
+		bloomingShots = 0;
+		cruiseShots = 10;
 	}
 	
 	
@@ -253,6 +258,22 @@ public class Falcon extends Sprite {
 
 
 	public boolean getProtected() {return bProtected;}
+
+	public int getBloomingShots() {
+		return bloomingShots;
+	}
+
+	public void setBloomingShots(int shots) {
+		bloomingShots = shots;
+	}
+
+	public int getCruiseShots() {
+		return cruiseShots;
+	}
+
+	public void setCruiseShots(int shots) {
+		cruiseShots = shots;
+	}
 
 	
 } //end class

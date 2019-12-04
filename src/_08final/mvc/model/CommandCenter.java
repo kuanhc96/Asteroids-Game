@@ -8,13 +8,20 @@ import java.util.List;
 
 public class CommandCenter {
 
-	private  int nNumFalcon;
-	private  int nLevel;
-	private  long lScore;
-	private  Falcon falShip;
-	private  boolean bPlaying;
-	private  boolean bPaused;
-	
+	public static final long GAME_TIME = 30000;
+
+	private int nNumFalcon;
+	private int nLevel;
+	private long lScore;
+	private Falcon falShip;
+	private boolean bPlaying;
+	private boolean bPaused;
+	private long levelEpochTime;
+//	private long levelPausedEpochTime; // updated everytime pause is called
+//	private long levelPausedElapsedTime; // accumulated amount of time paused
+//	private long elapsedTimeCounter;
+
+
 	// These ArrayLists with capacities set
 	private List<Movable> movDebris = new ArrayList<Movable>(300);
 	private List<Movable> movFriends = new ArrayList<Movable>(100);
@@ -43,6 +50,10 @@ public class CommandCenter {
 		setScore(0);
 		setNumFalcons(3);
 		spawnFalcon(true);
+		this.levelEpochTime = System.currentTimeMillis();
+//		this.levelPausedEpochTime = 0;
+//		this.levelPausedElapsedTime = 0;
+//		this.elapsedTimeCounter = 0;
 	}
 	
 	// The parameter is true if this is for the beginning of the game, otherwise false
@@ -151,6 +162,26 @@ public class CommandCenter {
 		return movFloaters;
 	}
 
+	public void resetTimer() {
+		levelEpochTime = System.currentTimeMillis();
+//		levelPausedElapsedTime = 0;
+//		levelPausedEpochTime = 0;
+	}
+
+	public long getElapsedTime() {
+
+//		if (isPaused() && elapsedTimeCounter == 0) {
+//			levelPausedEpochTime = System.currentTimeMillis();
+//		}
+//
+//		if (isPaused()) {
+//			elapsedTimeCounter = System.currentTimeMillis() - levelPausedElapsedTime;
+//			//elapsedTimeCounter = 0;
+//		}
+//		levelPausedElapsedTime += elapsedTimeCounter;
+		return System.currentTimeMillis() - levelEpochTime; // - levelPausedElapsedTime;
+
+	}
 
 
 

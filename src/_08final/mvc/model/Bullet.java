@@ -8,7 +8,7 @@ public class Bullet extends Sprite {
 
 	  private final double FIRE_POWER = 35.0;
 
-	 
+	 private double angle;
 	
 public Bullet(Falcon fal){
 		
@@ -40,8 +40,17 @@ public Bullet(Falcon fal){
 
 	    //set the bullet orientation to the falcon (ship) orientation
 	    setOrientation(fal.getOrientation());
+		this.angle = 0;
 
+	}
 
+	public Bullet(Falcon fal, double deg) {
+		this(fal);
+		this.angle = deg;
+		Point falconLocation = fal.getCenter();
+		setDeltaX(Math.cos(Math.toRadians(angle)) * FIRE_POWER / 2);
+		setDeltaY(Math.sin(Math.toRadians(angle)) * FIRE_POWER / 2);
+		setCenter(new Point((int) falconLocation.getX(), (int) falconLocation.getY()));
 	}
 
 	@Override

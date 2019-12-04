@@ -1,5 +1,6 @@
 package _08final.mvc.controller;
 
+import _08final.ShockWave;
 import _08final.mvc.model.*;
 import _08final.mvc.view.GamePanel;
 import _08final.sounds.Sound;
@@ -51,7 +52,9 @@ public class Game implements Runnable, KeyListener {
 	private Clip clpMusicBackground;
 
 	private static final int SPAWN_NEW_SHIP_FLOATER = 1200;
-
+	private static final int BIG_ASTEROID_SCORE = 1;
+	private static final int MEDIUM_ASTEROID_SCORE = 5;
+	private static final int SMALL_ASTEROID_SCORE = 10;
 
 
 	// ===============================================
@@ -118,6 +121,7 @@ public class Game implements Runnable, KeyListener {
 			//if the level is clear then spawn some big asteroids -- the number of asteroids 
 			//should increase with the level. 
 			checkNewLevel();
+			checkTimeElapsed();
 
 			try {
 				// The total amount of time is guaranteed to be at least ANI_DELAY long.  If processing (update) 
@@ -155,13 +159,22 @@ public class Game implements Runnable, KeyListener {
 					if ((movFriend instanceof Falcon) ){
 						if (!CommandCenter.getInstance().getFalcon().getProtected()){
 							CommandCenter.getInstance().getOpsList().enqueue(movFriend, CollisionOp.Operation.REMOVE);
+							for (int deg = 0; deg < 360; deg += 20) {
+								CommandCenter.getInstance().getOpsList().enqueue(new FalconDebris(CommandCenter.getInstance().getFalcon(), deg), CollisionOp.Operation.ADD);
+							}
 							CommandCenter.getInstance().spawnFalcon(false);
 
 						}
 					}
 					//not the falcon
 					else {
-						CommandCenter.getInstance().getOpsList().enqueue(movFriend, CollisionOp.Operation.REMOVE);
+						if (movFriend instanceof Cruise) {
+							CommandCenter.getInstance().getOpsList().enqueue(movFriend, CollisionOp.Operation.REMOVE);
+							CommandCenter.getInstance().getOpsList().enqueue(new ShockWave((Cruise) movFriend), CollisionOp.Operation.ADD);
+						} else if (!(movFriend instanceof ShockWave)){
+							CommandCenter.getInstance().getOpsList().enqueue(movFriend, CollisionOp.Operation.REMOVE);
+						}
+
 					}//end else
 					//kill the foe and if asteroid, then spawn new asteroids
 					killFoe(movFoe);
@@ -187,6 +200,13 @@ public class Game implements Runnable, KeyListener {
 				if (pntFalCenter.distance(pntFloaterCenter) < (nFalRadiux + nFloaterRadiux)) {
 
 					CommandCenter.getInstance().getOpsList().enqueue(movFloater, CollisionOp.Operation.REMOVE);
+					if (movFloater instanceof Up1Floater) {
+						CommandCenter.getInstance().setNumFalcons(CommandCenter.getInstance().getNumFalcons() + 1);
+					} else if (movFloater instanceof BloomingShotsFloater) {
+						CommandCenter.getInstance().getFalcon().setBloomingShots(CommandCenter.getInstance().getFalcon().getBloomingShots() + 10);
+					} else if (movFloater instanceof CruiseShotsFloater) {
+						CommandCenter.getInstance().getFalcon().setCruiseShots(CommandCenter.getInstance().getFalcon().getCruiseShots() + 10);
+					}
 					Sound.playSound("pacman_eatghost.wav");
 	
 				}//end if 
@@ -195,7 +215,7 @@ public class Game implements Runnable, KeyListener {
 		
 
 
-		//we are dequeuing the opsList and performing operations in serial to avoid mutating the movable arraylists while iterating them above
+		//we are dequeu ing the opsList and performing operations in serial to avoid mutating the movable arraylists while iterating them above
 		while(!CommandCenter.getInstance().getOpsList().isEmpty()){
 			CollisionOp cop =  CommandCenter.getInstance().getOpsList().dequeue();
 			Movable mov = cop.getMovable();
@@ -254,7 +274,7 @@ public class Game implements Runnable, KeyListener {
 				//spawn two medium Asteroids
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(astExploded), CollisionOp.Operation.ADD);
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(astExploded), CollisionOp.Operation.ADD);
-
+				CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + BIG_ASTEROID_SCORE);
 			} 
 			//medium size aseroid exploded
 			else if(astExploded.getSize() == 1){
@@ -262,7 +282,13 @@ public class Game implements Runnable, KeyListener {
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(astExploded), CollisionOp.Operation.ADD);
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(astExploded), CollisionOp.Operation.ADD);
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(astExploded), CollisionOp.Operation.ADD);
+				CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + MEDIUM_ASTEROID_SCORE);
 
+			} else if (astExploded.getSize() == 2) { // when small asteroids exploded
+				for (int deg = 0; deg < 360; deg += 20) {
+					CommandCenter.getInstance().getOpsList().enqueue(new Debris(astExploded, deg), CollisionOp.Operation.ADD);
+				}
+				CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + SMALL_ASTEROID_SCORE);
 			}
 
 		} 
@@ -288,9 +314,19 @@ public class Game implements Runnable, KeyListener {
 	private void spawnNewShipFloater() {
 		//make the appearance of power-up dependent upon ticks and levels
 		//the higher the level the more frequent the appearance
-		if (nTick % (SPAWN_NEW_SHIP_FLOATER - nLevel * 7) == 0) {
+
+		if (nTick % (SPAWN_NEW_SHIP_FLOATER - nLevel * 3) == 0) {
+			Random r = new Random();
+			int temp = r.nextInt(100);
 			//CommandCenter.getInstance().getMovFloaters().enqueue(new NewShipFloater());
-			CommandCenter.getInstance().getOpsList().enqueue(new NewShipFloater(), CollisionOp.Operation.ADD);
+			if (temp < 33) {
+				CommandCenter.getInstance().getOpsList().enqueue(new BloomingShotsFloater(), CollisionOp.Operation.ADD);
+			} else if (temp < 66) {
+				CommandCenter.getInstance().getOpsList().enqueue(new Up1Floater(), CollisionOp.Operation.ADD);
+
+			} else {
+				CommandCenter.getInstance().getOpsList().enqueue(new CruiseShotsFloater(), CollisionOp.Operation.ADD);
+			}
 		}
 	}
 
@@ -324,7 +360,6 @@ public class Game implements Runnable, KeyListener {
 				break;
 			}
 		}
-		
 		return bAsteroidFree;
 
 		
@@ -338,11 +373,15 @@ public class Game implements Runnable, KeyListener {
 			
 			spawnAsteroids(CommandCenter.getInstance().getLevel() + 2);
 			CommandCenter.getInstance().setLevel(CommandCenter.getInstance().getLevel() + 1);
-
+			CommandCenter.getInstance().resetTimer();
 		}
 	}
 	
-	
+	private void checkTimeElapsed() {
+		if (CommandCenter.getInstance().getElapsedTime() >= CommandCenter.GAME_TIME) {
+			CommandCenter.getInstance().setNumFalcons(0);
+		}
+	}
 	
 
 	// Varargs for stopping looping-music-clips
@@ -370,8 +409,10 @@ public class Game implements Runnable, KeyListener {
 			switch (nKey) {
 			case PAUSE:
 				CommandCenter.getInstance().setPaused(!CommandCenter.getInstance().isPaused());
-				if (CommandCenter.getInstance().isPaused())
+				if (CommandCenter.getInstance().isPaused()) {
 					stopLoopingSounds(clpMusicBackground, clpThrust);
+
+				}
 				else
 					clpMusicBackground.loop(Clip.LOOP_CONTINUOUSLY);
 				break;
@@ -416,7 +457,15 @@ public class Game implements Runnable, KeyListener {
 				
 			//special is a special weapon, current it just fires the cruise missile. 
 			case SPECIAL:
-				CommandCenter.getInstance().getOpsList().enqueue(new Cruise(fal), CollisionOp.Operation.ADD);
+				if (CommandCenter.getInstance().getFalcon().getBloomingShots() > 0) {
+					for (int deg = 0; deg < 360; deg += 20) {
+						CommandCenter.getInstance().getOpsList().enqueue(new Bullet(fal, deg), CollisionOp.Operation.ADD);
+					}
+					CommandCenter.getInstance().getFalcon().setBloomingShots(CommandCenter.getInstance().getFalcon().getBloomingShots() - 1);
+				} else if (CommandCenter.getInstance().getFalcon().getCruiseShots() > 0) {
+					CommandCenter.getInstance().getOpsList().enqueue(new Cruise(fal), CollisionOp.Operation.ADD);
+					CommandCenter.getInstance().getFalcon().setCruiseShots(CommandCenter.getInstance().getFalcon().getCruiseShots() - 1);
+				}
 				//Sound.playSound("laser.wav");
 				break;
 				

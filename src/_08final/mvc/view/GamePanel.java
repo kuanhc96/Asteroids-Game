@@ -60,6 +60,49 @@ public class GamePanel extends Panel {
 			g.drawString("NO SCORE", nFontWidth, nFontHeight);
 		}
 	}
+
+	private void drawLevel(Graphics g) {
+		g.setColor(Color.white);
+		g.setFont(fnt);
+		g.drawString("LEVEL :  " + CommandCenter.getInstance().getLevel(), 10 * nFontWidth, nFontHeight);
+
+	}
+
+	private void drawElapsedTime(Graphics g) {
+		if (CommandCenter.getInstance().isPlaying()) {
+			g.setColor(Color.white);
+			g.setFont(fnt);
+			g.drawString("Elapsed Time :  " + CommandCenter.getInstance().getElapsedTime() / 1000  / 60 + " : " +
+												CommandCenter.getInstance().getElapsedTime() / 1000 % 60 + " : " +
+												CommandCenter.getInstance().getElapsedTime() % 1000,
+												20 * nFontWidth, nFontHeight);
+		} else {
+			g.setColor(Color.white);
+			g.setFont(fnt);
+			g.drawString("Elapsed Time :  " + "00 : 00 : 000", 20 * nFontWidth, nFontHeight);
+		}
+
+	}
+
+	private void drawTimeLeft(Graphics g) {
+		if (CommandCenter.getInstance().isPlaying()) {
+			g.setColor(Color.white);
+			g.setFont(fnt);
+			g.drawString("Time Left :  " + (CommandCenter.GAME_TIME - CommandCenter.getInstance().getElapsedTime()) / 1000 / 60 + " : " +
+							(CommandCenter.GAME_TIME - CommandCenter.getInstance().getElapsedTime()) / 1000 % 60 + " : " +
+							(1000 - CommandCenter.getInstance().getElapsedTime() % 1000),
+					30 * nFontWidth, nFontHeight);
+		} else {
+			g.setColor(Color.white);
+			g.setFont(fnt);
+			g.drawString("Time Left :  " + (CommandCenter.GAME_TIME / 1000 / 60) + " : " +
+											(CommandCenter.GAME_TIME / 1000 % 60) + " : " +
+											(CommandCenter.GAME_TIME % 1000), 30 * nFontWidth, nFontHeight);
+		}
+
+	}
+
+
 	
 	@SuppressWarnings("unchecked")
 	public void update(Graphics g) {
@@ -74,6 +117,9 @@ public class GamePanel extends Panel {
 		grpOff.fillRect(0, 0, Game.DIM.width, Game.DIM.height);
 
 		drawScore(grpOff);
+		drawLevel(grpOff);
+		drawElapsedTime(grpOff);
+		drawTimeLeft(grpOff);
 		
 		if (!CommandCenter.getInstance().isPlaying()) {
 			displayTextOnScreen();
