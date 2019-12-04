@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CommandCenter {
 
-	public static final long GAME_TIME = 30000;
+	private long gameTime;
 
 	private int nNumFalcon;
 	private int nLevel;
@@ -51,6 +51,7 @@ public class CommandCenter {
 		setNumFalcons(3);
 		spawnFalcon(true);
 		this.levelEpochTime = System.currentTimeMillis();
+		this.gameTime = 30000;
 //		this.levelPausedEpochTime = 0;
 //		this.levelPausedElapsedTime = 0;
 //		this.elapsedTimeCounter = 0;
@@ -181,6 +182,14 @@ public class CommandCenter {
 //		levelPausedElapsedTime += elapsedTimeCounter;
 		return System.currentTimeMillis() - levelEpochTime; // - levelPausedElapsedTime;
 
+	}
+
+	public long getGameTime() {
+		return gameTime;
+	}
+
+	public void setGameTime(long gameTime) {
+		this.gameTime = gameTime;
 	}
 
 

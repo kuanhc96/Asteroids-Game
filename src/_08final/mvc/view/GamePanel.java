@@ -88,16 +88,16 @@ public class GamePanel extends Panel {
 		if (CommandCenter.getInstance().isPlaying()) {
 			g.setColor(Color.white);
 			g.setFont(fnt);
-			g.drawString("Time Left :  " + (CommandCenter.GAME_TIME - CommandCenter.getInstance().getElapsedTime()) / 1000 / 60 + " : " +
-							(CommandCenter.GAME_TIME - CommandCenter.getInstance().getElapsedTime()) / 1000 % 60 + " : " +
+			g.drawString("Time Left :  " + (CommandCenter.getInstance().getGameTime() - CommandCenter.getInstance().getElapsedTime()) / 1000 / 60 + " : " +
+							(CommandCenter.getInstance().getGameTime() - CommandCenter.getInstance().getElapsedTime()) / 1000 % 60 + " : " +
 							(1000 - CommandCenter.getInstance().getElapsedTime() % 1000),
 					30 * nFontWidth, nFontHeight);
 		} else {
 			g.setColor(Color.white);
 			g.setFont(fnt);
-			g.drawString("Time Left :  " + (CommandCenter.GAME_TIME / 1000 / 60) + " : " +
-											(CommandCenter.GAME_TIME / 1000 % 60) + " : " +
-											(CommandCenter.GAME_TIME % 1000), 30 * nFontWidth, nFontHeight);
+			g.drawString("Time Left :  " + (CommandCenter.getInstance().getGameTime() / 1000 / 60) + " : " +
+											(CommandCenter.getInstance().getGameTime() / 1000 % 60) + " : " +
+											(CommandCenter.getInstance().getGameTime() % 1000), 30 * nFontWidth, nFontHeight);
 		}
 
 	}

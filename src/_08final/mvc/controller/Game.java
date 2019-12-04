@@ -171,7 +171,7 @@ public class Game implements Runnable, KeyListener {
 						if (movFriend instanceof Cruise) {
 							CommandCenter.getInstance().getOpsList().enqueue(movFriend, CollisionOp.Operation.REMOVE);
 							CommandCenter.getInstance().getOpsList().enqueue(new ShockWave((Cruise) movFriend), CollisionOp.Operation.ADD);
-						} else if (!(movFriend instanceof ShockWave)){
+						} else if (!(movFriend instanceof ShockWave)) {
 							CommandCenter.getInstance().getOpsList().enqueue(movFriend, CollisionOp.Operation.REMOVE);
 						}
 
@@ -263,10 +263,39 @@ public class Game implements Runnable, KeyListener {
 		
 	}//end meth
 
+	@SuppressWarnings("checkstyle:LineLength")
 	private void killFoe(Movable movFoe) {
-		
-		if (movFoe instanceof Asteroid){
+	    if (movFoe instanceof StrongAsteroid) {
+	        if (((StrongAsteroid) movFoe).toExplode()) {
+                //we know this is a StrongAsteroid, so we can cast without threat of ClassCastException
+                StrongAsteroid astExploded = (StrongAsteroid) movFoe;
+                //big asteroid
+                if (astExploded.getSize() == 0){
+                    //spawn two medium Asteroids
+                    CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(astExploded), CollisionOp.Operation.ADD);
+                    CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(astExploded), CollisionOp.Operation.ADD);
+                    CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + BIG_ASTEROID_SCORE * 2);
+                }
+                //medium size aseroid exploded
+                else if (astExploded.getSize() == 1){
+                    //spawn three small Asteroids
+                    CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(astExploded), CollisionOp.Operation.ADD);
+                    CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(astExploded), CollisionOp.Operation.ADD);
+                    CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(astExploded), CollisionOp.Operation.ADD);
+                    CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + MEDIUM_ASTEROID_SCORE * 2);
 
+                } else if (astExploded.getSize() == 2) { // when small asteroids exploded
+                    for (int deg = 0; deg < 360; deg += 20) {
+                        CommandCenter.getInstance().getOpsList().enqueue(new Debris(astExploded, deg), CollisionOp.Operation.ADD);
+                    }
+                    CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + SMALL_ASTEROID_SCORE * 2);
+                }
+				CommandCenter.getInstance().getOpsList().enqueue(movFoe, CollisionOp.Operation.REMOVE);
+			} else {
+	        	((StrongAsteroid) movFoe).setHits(((StrongAsteroid) movFoe).getHits() + 1);
+			}
+
+        } else if (movFoe instanceof Asteroid){
 			//we know this is an Asteroid, so we can cast without threat of ClassCastException
 			Asteroid astExploded = (Asteroid)movFoe;
 			//big asteroid 
@@ -290,11 +319,10 @@ public class Game implements Runnable, KeyListener {
 				}
 				CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + SMALL_ASTEROID_SCORE);
 			}
-
+			CommandCenter.getInstance().getOpsList().enqueue(movFoe, CollisionOp.Operation.REMOVE);
 		} 
 
 		//remove the original Foe
-		CommandCenter.getInstance().getOpsList().enqueue(movFoe, CollisionOp.Operation.REMOVE);
 
 	}
 
@@ -345,8 +373,11 @@ public class Game implements Runnable, KeyListener {
 	private void spawnAsteroids(int nNum) {
 		for (int nC = 0; nC < nNum; nC++) {
 			//Asteroids with size of zero are big
-			CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
-
+			if (CommandCenter.getInstance().getLevel() < 3) {
+				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
+			} else if (CommandCenter.getInstance().getLevel() < 5) {
+				CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(0), CollisionOp.Operation.ADD);
+			}
 		}
 	}
 	
@@ -371,14 +402,19 @@ public class Game implements Runnable, KeyListener {
 			if (CommandCenter.getInstance().getFalcon() !=null)
 				CommandCenter.getInstance().getFalcon().setProtected(true);
 			
-			spawnAsteroids(CommandCenter.getInstance().getLevel() + 2);
+			spawnAsteroids(CommandCenter.getInstance().getLevel() + 1);
 			CommandCenter.getInstance().setLevel(CommandCenter.getInstance().getLevel() + 1);
 			CommandCenter.getInstance().resetTimer();
+			if (CommandCenter.getInstance().getLevel() % 3 == 0) {
+				CommandCenter.getInstance().setGameTime(CommandCenter.getInstance().getGameTime() + 10000);
+				CommandCenter.getInstance().setNumFalcons(CommandCenter.getInstance().getNumFalcons() + 1);
+			}
+
 		}
 	}
 	
 	private void checkTimeElapsed() {
-		if (CommandCenter.getInstance().getElapsedTime() >= CommandCenter.GAME_TIME) {
+		if (CommandCenter.getInstance().getElapsedTime() >= CommandCenter.getInstance().getGameTime()) {
 			CommandCenter.getInstance().setNumFalcons(0);
 		}
 	}
