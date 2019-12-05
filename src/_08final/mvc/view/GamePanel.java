@@ -244,7 +244,12 @@ public class GamePanel extends Panel {
 	// This method draws some text to the middle of the screen before/after a game
 	private void displayTextOnScreen() {
 
-		strDisplay = "GAME OVER";
+		if (CommandCenter.getInstance().getGameInitiated()) {
+			strDisplay = "GAME OVER";
+		} else {
+			strDisplay = "Welcome!";
+			CommandCenter.getInstance().setGameInitiated(true);
+		}
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4);
 

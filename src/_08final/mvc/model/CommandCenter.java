@@ -18,6 +18,8 @@ public class CommandCenter {
 	private boolean bPaused;
 	private long levelEpochTime;
 	private long gameEpochTime;
+	private boolean gameInitiated;
+
 //	private long levelPausedEpochTime; // updated everytime pause is called
 //	private long levelPausedElapsedTime; // accumulated amount of time paused
 //	private long elapsedTimeCounter;
@@ -54,6 +56,7 @@ public class CommandCenter {
 		this.levelEpochTime = System.currentTimeMillis();
 		this.gameEpochTime = System.currentTimeMillis();
 		this.gameTime = 40000;
+		this.gameInitiated = false;
 //		this.levelPausedEpochTime = 0;
 //		this.levelPausedElapsedTime = 0;
 //		this.elapsedTimeCounter = 0;
@@ -195,6 +198,14 @@ public class CommandCenter {
 
 	public void setGameTime(long gameTime) {
 		this.gameTime = gameTime;
+	}
+
+	public boolean getGameInitiated() {
+		return gameInitiated;
+	}
+
+	public void setGameInitiated(boolean gameInitiated) {
+		this.gameInitiated = gameInitiated;
 	}
 
 

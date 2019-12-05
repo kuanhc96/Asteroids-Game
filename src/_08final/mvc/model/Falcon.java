@@ -108,9 +108,9 @@ public class Falcon extends Sprite {
 		//these are falcon specific
 		setProtected(true);
 		setFadeValue(0);
-		bloomingShots = 0;
+		bloomingShots = 10;
 		cruiseShots = 5;
-		nShield = 0;
+		nShield = 1;
 		bShield = false;
 		bFirst = true;
 	}

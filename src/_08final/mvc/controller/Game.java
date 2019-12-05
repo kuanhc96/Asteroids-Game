@@ -325,10 +325,10 @@ public class Game implements Runnable, KeyListener {
 		} else if (movFoe instanceof UFO){
 	    	UFO ufoHit = (UFO) movFoe;
 	    	if (((UFO) movFoe).toExplode()) {
-				CommandCenter.getInstance().getOpsList().enqueue(ufoHit, CollisionOp.Operation.REMOVE);
 				for (int deg = 0; deg < 360; deg += 20) {
 					CommandCenter.getInstance().getOpsList().enqueue(new Debris(ufoHit, deg), CollisionOp.Operation.ADD);
 				}
+				CommandCenter.getInstance().getOpsList().enqueue(ufoHit, CollisionOp.Operation.REMOVE);
 				CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + UFO_SCORE);
 			} else {
 	    		ufoHit.setHits(ufoHit.getHits() + 1);
@@ -387,14 +387,15 @@ public class Game implements Runnable, KeyListener {
 	private void spawnAsteroids(int nNum) {
 		for (int nC = 0; nC < nNum; nC++) {
 			//Asteroids with size of zero are big
-			if (CommandCenter.getInstance().getLevel() < 3) {
+			if (CommandCenter.getInstance().getLevel() < 1) {
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
-			} else if (CommandCenter.getInstance().getLevel() < 5) {
+			} else if (CommandCenter.getInstance().getLevel() < 3) {
 				CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(0), CollisionOp.Operation.ADD);
-			} else if (CommandCenter.getInstance().getLevel() < 7){
+			} else if (CommandCenter.getInstance().getLevel() < 5){
 				CommandCenter.getInstance().getOpsList().enqueue(new UFO(), CollisionOp.Operation.ADD);
 			} else {
 				CommandCenter.getInstance().setNumFalcons(0);
+				CommandCenter.getInstance().setPlaying(false);
 			}
 
 
@@ -407,7 +408,8 @@ public class Game implements Runnable, KeyListener {
 		//if there are no more Asteroids on the screen
 		boolean bAsteroidFree = true;
 		for (Movable movFoe : CommandCenter.getInstance().getMovFoes()) {
-			if (movFoe instanceof Asteroid){
+
+			if (movFoe instanceof Asteroid || movFoe instanceof UFO){
 				bAsteroidFree = false;
 				break;
 			}
@@ -444,6 +446,7 @@ public class Game implements Runnable, KeyListener {
 	private void checkTimeElapsed() {
 		if (CommandCenter.getInstance().getElapsedTime() >= CommandCenter.getInstance().getGameTime()) {
 			CommandCenter.getInstance().setNumFalcons(0);
+			CommandCenter.getInstance().setLevel(0);
 		}
 	}
 	
@@ -554,8 +557,11 @@ public class Game implements Runnable, KeyListener {
 				}
 				break;
 			case SHIELD:
-				CommandCenter.getInstance().getFalcon().setProtected(true);
-				CommandCenter.getInstance().getFalcon().setnShield(CommandCenter.getInstance().getFalcon().getnShield() - 1) ;
+				if (CommandCenter.getInstance().getFalcon().getnShield() > 0) {
+					CommandCenter.getInstance().getFalcon().setProtected(true);
+					CommandCenter.getInstance().getFalcon().setnShield(CommandCenter.getInstance().getFalcon().getnShield() - 1) ;
+				}
+
 				
 			default:
 				break;

@@ -41,7 +41,7 @@ public class UFO extends Sprite {
         super.move();
         adjustAngle();
         int shoot = rShoot.nextInt(100);
-        if (shoot <= 5) { // shoot every 5 seconds ?????
+        if (shoot <= 1) { // shoot every 5 seconds ?????
             shoot();
         }
 
