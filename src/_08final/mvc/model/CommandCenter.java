@@ -53,7 +53,7 @@ public class CommandCenter {
 		spawnFalcon(true);
 		this.levelEpochTime = System.currentTimeMillis();
 		this.gameEpochTime = System.currentTimeMillis();
-		this.gameTime = 30000;
+		this.gameTime = 40000;
 //		this.levelPausedEpochTime = 0;
 //		this.levelPausedElapsedTime = 0;
 //		this.elapsedTimeCounter = 0;

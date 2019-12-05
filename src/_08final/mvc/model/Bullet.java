@@ -10,7 +10,7 @@ public class Bullet extends Sprite {
 
 	 private double angle;
 	
-public Bullet(Falcon fal){
+public Bullet(Sprite fal){
 		
 		super();
 	    setTeam(Team.FRIEND);
@@ -29,7 +29,7 @@ public Bullet(Falcon fal){
 		//a bullet expires after 20 frames
 	    setExpire( 20 );
 	    setRadius(6);
-	    
+
 
 	    //everything is relative to the falcon ship that fired the bullet
 	    setDeltaX( fal.getDeltaX() +
@@ -44,7 +44,7 @@ public Bullet(Falcon fal){
 
 	}
 
-	public Bullet(Falcon fal, double deg) {
+	public Bullet(Sprite fal, double deg) {
 		this(fal);
 		this.angle = deg;
 		Point falconLocation = fal.getCenter();
@@ -63,6 +63,14 @@ public Bullet(Falcon fal){
 		else
 			setExpire(getExpire() - 1);
 
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 
 }

@@ -55,7 +55,7 @@ public class Game implements Runnable, KeyListener {
 	private static final int BIG_ASTEROID_SCORE = 1;
 	private static final int MEDIUM_ASTEROID_SCORE = 5;
 	private static final int SMALL_ASTEROID_SCORE = 10;
-
+	private static final int UFO_SCORE = 20;
 
 	// ===============================================
 	// ==CONSTRUCTOR
@@ -322,7 +322,18 @@ public class Game implements Runnable, KeyListener {
 				CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + SMALL_ASTEROID_SCORE);
 			}
 			CommandCenter.getInstance().getOpsList().enqueue(movFoe, CollisionOp.Operation.REMOVE);
-		} 
+		} else if (movFoe instanceof UFO){
+	    	UFO ufoHit = (UFO) movFoe;
+	    	if (((UFO) movFoe).toExplode()) {
+				CommandCenter.getInstance().getOpsList().enqueue(ufoHit, CollisionOp.Operation.REMOVE);
+				for (int deg = 0; deg < 360; deg += 20) {
+					CommandCenter.getInstance().getOpsList().enqueue(new Debris(ufoHit, deg), CollisionOp.Operation.ADD);
+				}
+				CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + UFO_SCORE);
+			} else {
+	    		ufoHit.setHits(ufoHit.getHits() + 1);
+			}
+		}
 
 		//remove the original Foe
 
@@ -380,9 +391,14 @@ public class Game implements Runnable, KeyListener {
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
 			} else if (CommandCenter.getInstance().getLevel() < 5) {
 				CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(0), CollisionOp.Operation.ADD);
+			} else if (CommandCenter.getInstance().getLevel() < 7){
+				CommandCenter.getInstance().getOpsList().enqueue(new UFO(), CollisionOp.Operation.ADD);
 			} else {
 				CommandCenter.getInstance().setNumFalcons(0);
 			}
+
+
+			// CommandCenter.getInstance().getOpsList().enqueue(new UFO(), CollisionOp.Operation.ADD);
 		}
 	}
 	
@@ -406,7 +422,7 @@ public class Game implements Runnable, KeyListener {
 		if (isLevelClear()){
 			if (CommandCenter.getInstance().getFalcon() !=null)
 				CommandCenter.getInstance().getFalcon().setProtected(true);
-			
+
 			spawnAsteroids(CommandCenter.getInstance().getLevel() + 1);
 			CommandCenter.getInstance().setLevel(CommandCenter.getInstance().getLevel() + 1);
 			CommandCenter.getInstance().resetTimer();
@@ -415,7 +431,7 @@ public class Game implements Runnable, KeyListener {
 				CommandCenter.getInstance().getFalcon().setbFirst(true);
 			}
 			if (CommandCenter.getInstance().getLevel() % 3 == 0) {
-				CommandCenter.getInstance().setGameTime(CommandCenter.getInstance().getGameTime() + 10000);
+				CommandCenter.getInstance().setGameTime(CommandCenter.getInstance().getGameTime() + 15000);
 			} else if (CommandCenter.getInstance().getLevel() % 4 == 0) {
 				CommandCenter.getInstance().setNumFalcons(CommandCenter.getInstance().getNumFalcons() + 2);
 			} else if (CommandCenter.getInstance().getLevel() % 2 == 0) {
