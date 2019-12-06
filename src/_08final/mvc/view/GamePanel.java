@@ -27,6 +27,8 @@ public class GamePanel extends Panel {
 	private int nFontWidth;
 	private int nFontHeight;
 	private String strDisplay = "";
+	private boolean dontKnowEndTime;
+	private long endTime;
 	
 
 	// ==============================================================
@@ -44,6 +46,8 @@ public class GamePanel extends Panel {
 		gmf.setResizable(false);
 		gmf.setVisible(true);
 		this.setFocusable(true);
+		dontKnowEndTime = true;
+		endTime = 0;
 	}
 	
 	
@@ -64,7 +68,7 @@ public class GamePanel extends Panel {
 	private void drawLevel(Graphics g) {
 		g.setColor(Color.white);
 		g.setFont(fnt);
-		g.drawString("LEVEL :  " + CommandCenter.getInstance().getLevel(), 7 * nFontWidth, nFontHeight);
+		g.drawString("LEVEL :  " + CommandCenter.getInstance().getLevel(), 6 * nFontWidth, nFontHeight);
 
 	}
 
@@ -75,11 +79,11 @@ public class GamePanel extends Panel {
 			g.drawString("Elapsed Time :  " + CommandCenter.getInstance().getElapsedTime() / 1000  / 60 + " : " +
 												CommandCenter.getInstance().getElapsedTime() / 1000 % 60 + " : " +
 												CommandCenter.getInstance().getElapsedTime() % 1000,
-												12 * nFontWidth, nFontHeight);
+												10 * nFontWidth, nFontHeight);
 		} else {
 			g.setColor(Color.white);
 			g.setFont(fnt);
-			g.drawString("Elapsed Time :  " + "00 : 00 : 000", 12 * nFontWidth, nFontHeight);
+			g.drawString("Elapsed Time :  " + "00 : 00 : 000", 10 * nFontWidth, nFontHeight);
 		}
 
 	}
@@ -91,13 +95,13 @@ public class GamePanel extends Panel {
 			g.drawString("Time Left :  " + (CommandCenter.getInstance().getGameTime() - CommandCenter.getInstance().getElapsedTime()) / 1000 / 60 + " : " +
 							(CommandCenter.getInstance().getGameTime() - CommandCenter.getInstance().getElapsedTime()) / 1000 % 60 + " : " +
 							(1000 - CommandCenter.getInstance().getElapsedTime() % 1000),
-					23 * nFontWidth, nFontHeight);
+					19 * nFontWidth, nFontHeight);
 		} else {
 			g.setColor(Color.white);
 			g.setFont(fnt);
 			g.drawString("Time Left :  " + (CommandCenter.getInstance().getGameTime() / 1000 / 60) + " : " +
 											(CommandCenter.getInstance().getGameTime() / 1000 % 60) + " : " +
-											(CommandCenter.getInstance().getGameTime() % 1000), 23 * nFontWidth, nFontHeight);
+											(CommandCenter.getInstance().getGameTime() % 1000), 19 * nFontWidth, nFontHeight);
 		}
 
 	}
@@ -106,9 +110,9 @@ public class GamePanel extends Panel {
 		g.setColor(Color.white);
 		g.setFont(fnt);
 		if (CommandCenter.getInstance().isPlaying()) {
-			g.drawString("Cruise Shots left : " + CommandCenter.getInstance().getFalcon().getCruiseShots(), 30 * nFontWidth, nFontHeight);
+			g.drawString("Cruise Shots left : " + CommandCenter.getInstance().getFalcon().getCruiseShots(), 27 * nFontWidth, nFontHeight);
 		} else {
-			g.drawString("Cruise Shots left : 5", 32 * nFontWidth, nFontHeight);
+			g.drawString("Cruise Shots left : 5", 27 * nFontWidth, nFontHeight);
 		}
 	}
 
@@ -116,9 +120,9 @@ public class GamePanel extends Panel {
 		g.setColor(Color.white);
 		g.setFont(fnt);
 		if (CommandCenter.getInstance().isPlaying()) {
-			g.drawString("Blooming Shots left : " + CommandCenter.getInstance().getFalcon().getBloomingShots(), 40 * nFontWidth, nFontHeight);
+			g.drawString("Blooming Shots left : " + CommandCenter.getInstance().getFalcon().getBloomingShots(), 34 * nFontWidth, nFontHeight);
 		} else {
-			g.drawString("Blooming Shots left : 0", 40 * nFontWidth, nFontHeight);
+			g.drawString("Blooming Shots left : 10", 34 * nFontWidth, nFontHeight);
 
 		}
 	}
@@ -127,13 +131,23 @@ public class GamePanel extends Panel {
 		g.setColor(Color.white);
 		g.setFont(fnt);
 		if (CommandCenter.getInstance().isPlaying()) {
-			g.drawString("Shields left : " + CommandCenter.getInstance().getFalcon().getnShield(), 48 * nFontWidth, nFontHeight);
+			g.drawString("Shields left : " + CommandCenter.getInstance().getFalcon().getnShield(), 42 * nFontWidth, nFontHeight);
 		} else {
-			g.drawString("Shields left : 0", 48 * nFontWidth, nFontHeight);
+			g.drawString("Shields left : 1", 42 * nFontWidth, nFontHeight);
 
 		}
 	}
 
+	private void drawHyperLeft(Graphics g) {
+		g.setColor(Color.white);
+		g.setFont(fnt);
+		if (CommandCenter.getInstance().isPlaying()) {
+			g.drawString("Hypers left : " + CommandCenter.getInstance().getFalcon().getnHyper(), 47 * nFontWidth, nFontHeight);
+		} else {
+			g.drawString("Hypers left : 1", 47 * nFontWidth, nFontHeight);
+
+		}
+	}
 	
 	@SuppressWarnings("unchecked")
 	public void update(Graphics g) {
@@ -147,6 +161,7 @@ public class GamePanel extends Panel {
 		grpOff.setColor(Color.black);
 		grpOff.fillRect(0, 0, Game.DIM.width, Game.DIM.height);
 
+
 		drawScore(grpOff);
 		drawLevel(grpOff);
 		drawElapsedTime(grpOff);
@@ -154,7 +169,9 @@ public class GamePanel extends Panel {
 		drawCruiseShotsLeft(grpOff);
 		drawBloomingShotsLeft(grpOff);
 		drawShieldsLeft(grpOff);
-		
+		drawHyperLeft(grpOff);
+
+
 		if (!CommandCenter.getInstance().isPlaying()) {
 			displayTextOnScreen();
 		} else if (CommandCenter.getInstance().isPaused()) {
@@ -246,51 +263,101 @@ public class GamePanel extends Panel {
 
 		if (CommandCenter.getInstance().getGameInitiated()) {
 			strDisplay = "GAME OVER";
+			if (CommandCenter.getInstance().getGameCleared()) {
+				strDisplay = "Congratulations! You cleared all levels!";
+			} else if (CommandCenter.getInstance().getGameTimedOut()) {
+				strDisplay += "\n You ran out of time!";
+			} else if (CommandCenter.getInstance().getGameKilled()) {
+				strDisplay += " You ran out of lives!";
+			}
 		} else {
-			strDisplay = "Welcome!";
-			CommandCenter.getInstance().setGameInitiated(true);
+			strDisplay = "Welcome! \n Please review the following game instructions";
 		}
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4);
 
-		strDisplay = "use the arrow keys to turn and thrust";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 40);
+		if (!CommandCenter.getInstance().getGameInitiated()) { // TODO
+			strDisplay = "use the arrow keys to turn and thrust";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 40);
 
-		strDisplay = "use the space bar to fire";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 80);
+			strDisplay = "use the space bar to fire";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 80);
 
-		strDisplay = "'S' to Start";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 120);
+			strDisplay = "'S' to Start";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 120);
 
-		strDisplay = "'P' to Pause";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 160);
+			strDisplay = "'P' to Pause";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 160);
 
-		strDisplay = "'Q' to Quit";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 200);
-		strDisplay = "left pinkie on 'A' for Shield";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 240);
+			strDisplay = "'Q' to Quit";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 200);
+			strDisplay = "left pinkie on 'A' for Shield";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 240);
 
-		strDisplay = "left index finger on 'F' for Guided Missile";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 280);
+			strDisplay = "left index finger on 'F' for Guided Missile";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 280);
 
-		strDisplay = "'Numeric-Enter' for Hyperspace";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 320);
+			strDisplay = "'Numeric-Enter' for Hyperspace";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 320);
+		} else {
+			if (dontKnowEndTime) {
+				endTime = System.currentTimeMillis();
+				dontKnowEndTime = false;
+			}
+			strDisplay = "Game Statistics:";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+								+ nFontHeight + 40);
+			if (CommandCenter.getInstance().getLevel() == 0) {
+				strDisplay = "Levels Cleared: " + (0);
+			} else {
+				strDisplay = "Levels Cleared: " + (CommandCenter.getInstance().getLevel() - 1);
+			}
+
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 80);
+
+			strDisplay = "Total Score: " + CommandCenter.getInstance().getScore();
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 120);
+
+			strDisplay = "'S' to re-Start";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 200);
+			strDisplay = "'Q' to Quit";
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 240);
+
+			long timeElapsed = endTime - CommandCenter.getInstance().getGameEpochTime();
+			int minutes = (int)  timeElapsed / 1000 / 60;
+			int seconds = (int) timeElapsed / 1000 % 60;
+			int miliSeconds = (int) timeElapsed % 1000;
+			strDisplay = "Total Time Elapsed: " + minutes + " : " + seconds + " : " + miliSeconds;
+			grpOff.drawString(strDisplay,
+					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+							+ nFontHeight + 160);
+
+		}
 	}
 	
 	public GameFrame getFrm() {return this.gmf;}

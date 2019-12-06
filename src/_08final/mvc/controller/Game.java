@@ -43,7 +43,7 @@ public class Game implements Runnable, KeyListener {
 			MUTE = 77, // m-key mute
 
 	// for possible future use
-	// HYPER = 68, 					// d key
+	HYPER = 68, 					// d key
 	SHIELD = 65, 				// a key arrow
 	// NUM_ENTER = 10, 				// hyp
 	 SPECIAL = 70; 					// fire special weapon;  F key
@@ -56,6 +56,7 @@ public class Game implements Runnable, KeyListener {
 	private static final int MEDIUM_ASTEROID_SCORE = 5;
 	private static final int SMALL_ASTEROID_SCORE = 10;
 	private static final int UFO_SCORE = 20;
+	private static final int FLOATER_SCORE = 5;
 
 	// ===============================================
 	// ==CONSTRUCTOR
@@ -156,14 +157,15 @@ public class Game implements Runnable, KeyListener {
 				if (pntFriendCenter.distance(pntFoeCenter) < (nFriendRadiux + nFoeRadiux)) {
 
 					//falcon
-					if ((movFriend instanceof Falcon) ){
-						if (!CommandCenter.getInstance().getFalcon().getProtected()){
-							CommandCenter.getInstance().getOpsList().enqueue(movFriend, CollisionOp.Operation.REMOVE);
-							for (int deg = 0; deg < 360; deg += 20) {
-								CommandCenter.getInstance().getOpsList().enqueue(new FalconDebris(CommandCenter.getInstance().getFalcon(), deg), CollisionOp.Operation.ADD);
+					if ((movFriend instanceof Falcon) ) {
+						if (!CommandCenter.getInstance().getFalcon().getUpgraded()) {
+							if (!CommandCenter.getInstance().getFalcon().getProtected()) {
+								CommandCenter.getInstance().getOpsList().enqueue(movFriend, CollisionOp.Operation.REMOVE);
+								for (int deg = 0; deg < 360; deg += 20) {
+									CommandCenter.getInstance().getOpsList().enqueue(new FalconDebris(CommandCenter.getInstance().getFalcon(), deg), CollisionOp.Operation.ADD);
+								}
+								CommandCenter.getInstance().spawnFalcon(false);
 							}
-							CommandCenter.getInstance().spawnFalcon(false);
-
 						}
 					}
 					//not the falcon
@@ -198,7 +200,11 @@ public class Game implements Runnable, KeyListener {
 	
 				//detect collision
 				if (pntFalCenter.distance(pntFloaterCenter) < (nFalRadiux + nFloaterRadiux)) {
-
+					CommandCenter.getInstance().setScore(CommandCenter.getInstance().getScore() + FLOATER_SCORE);
+					CommandCenter.getInstance().getFalcon().setColor(((NewShipFloater) movFloater).getColor());
+					CommandCenter.getInstance().getFalcon().setFadeValue(0);
+					CommandCenter.getInstance().getFalcon().setUpgraded(true);
+					CommandCenter.getInstance().getFalcon().setbFirst(true);
 					CommandCenter.getInstance().getOpsList().enqueue(movFloater, CollisionOp.Operation.REMOVE);
 					if (movFloater instanceof Up1Floater) {
 						CommandCenter.getInstance().setNumFalcons(CommandCenter.getInstance().getNumFalcons() + 1);
@@ -208,6 +214,8 @@ public class Game implements Runnable, KeyListener {
 						CommandCenter.getInstance().getFalcon().setCruiseShots(CommandCenter.getInstance().getFalcon().getCruiseShots() + 10);
 					} else if (movFloater instanceof ShieldFloater) {
 						CommandCenter.getInstance().getFalcon().setnShield(CommandCenter.getInstance().getFalcon().getnShield() + 1);
+					} else if (movFloater instanceof HyperFLoater) {
+						CommandCenter.getInstance().getFalcon().setnShield(CommandCenter.getInstance().getFalcon().getnHyper() + 1);
 					}
 					Sound.playSound("pacman_eatghost.wav");
 	
@@ -359,15 +367,18 @@ public class Game implements Runnable, KeyListener {
 			Random r = new Random();
 			int temp = r.nextInt(100);
 			//CommandCenter.getInstance().getMovFloaters().enqueue(new NewShipFloater());
-			if (temp < 25) {
+			if (temp < 20) {
 				CommandCenter.getInstance().getOpsList().enqueue(new BloomingShotsFloater(), CollisionOp.Operation.ADD);
-			} else if (temp < 50) {
+			} else if (temp < 40) {
 				CommandCenter.getInstance().getOpsList().enqueue(new Up1Floater(), CollisionOp.Operation.ADD);
 
-			} else if (temp < 75) {
+			} else if (temp < 60) {
 				CommandCenter.getInstance().getOpsList().enqueue(new CruiseShotsFloater(), CollisionOp.Operation.ADD);
-			} else {
+			} else if (temp < 80) {
 				CommandCenter.getInstance().getOpsList().enqueue(new ShieldFloater(), CollisionOp.Operation.ADD);
+			} else {
+				CommandCenter.getInstance().getOpsList().enqueue(new HyperFLoater(), CollisionOp.Operation.ADD);
+
 			}
 		}
 	}
@@ -389,12 +400,20 @@ public class Game implements Runnable, KeyListener {
 			//Asteroids with size of zero are big
 			if (CommandCenter.getInstance().getLevel() < 1) {
 				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
+				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
 			} else if (CommandCenter.getInstance().getLevel() < 3) {
+				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
 				CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(0), CollisionOp.Operation.ADD);
-			} else if (CommandCenter.getInstance().getLevel() < 5){
+			} else if (CommandCenter.getInstance().getLevel() < 4){
+				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
 				CommandCenter.getInstance().getOpsList().enqueue(new UFO(), CollisionOp.Operation.ADD);
-			} else {
+			} else if (CommandCenter.getInstance().getLevel() < 5) {
+				CommandCenter.getInstance().getOpsList().enqueue(new StrongAsteroid(0), CollisionOp.Operation.ADD);
+				CommandCenter.getInstance().getOpsList().enqueue(new UFO(), CollisionOp.Operation.ADD);
+			} else { // game Cleared
 				CommandCenter.getInstance().setNumFalcons(0);
+				CommandCenter.getInstance().setGameCleared(true);
+				CommandCenter.getInstance().getOpsList().enqueue(new Asteroid(0), CollisionOp.Operation.ADD);
 				CommandCenter.getInstance().setPlaying(false);
 			}
 
@@ -446,7 +465,7 @@ public class Game implements Runnable, KeyListener {
 	private void checkTimeElapsed() {
 		if (CommandCenter.getInstance().getElapsedTime() >= CommandCenter.getInstance().getGameTime()) {
 			CommandCenter.getInstance().setNumFalcons(0);
-			CommandCenter.getInstance().setLevel(0);
+			CommandCenter.getInstance().setGameTimedOut(true);
 		}
 	}
 	
@@ -476,6 +495,7 @@ public class Game implements Runnable, KeyListener {
 			switch (nKey) {
 			case PAUSE:
 				CommandCenter.getInstance().setPaused(!CommandCenter.getInstance().isPaused());
+
 				if (CommandCenter.getInstance().isPaused()) {
 					stopLoopingSounds(clpMusicBackground, clpThrust);
 
@@ -556,13 +576,28 @@ public class Game implements Runnable, KeyListener {
 					bMuted = !bMuted;
 				}
 				break;
+
 			case SHIELD:
 				if (CommandCenter.getInstance().getFalcon().getnShield() > 0) {
+					CommandCenter.getInstance().getFalcon().setbFirst(false);
 					CommandCenter.getInstance().getFalcon().setProtected(true);
 					CommandCenter.getInstance().getFalcon().setnShield(CommandCenter.getInstance().getFalcon().getnShield() - 1) ;
 				}
+				break;
 
-				
+			case HYPER:
+				if (CommandCenter.getInstance().getFalcon().getnHyper() > 0) {
+					Random rx = new Random();
+					Random ry = new Random();
+					int hyperX = rx.nextInt(DIM.width);
+					int hyperY = ry.nextInt(DIM.height);
+					CommandCenter.getInstance().getFalcon().setCenter(new Point(hyperX, hyperY));
+					CommandCenter.getInstance().getFalcon().setbFirst(true);
+					CommandCenter.getInstance().getFalcon().setProtected(true);
+					CommandCenter.getInstance().getFalcon().setnHyper(CommandCenter.getInstance().getFalcon().getnHyper() - 1) ;
+				}
+				break;
+
 			default:
 				break;
 			}

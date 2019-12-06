@@ -19,6 +19,9 @@ public class CommandCenter {
 	private long levelEpochTime;
 	private long gameEpochTime;
 	private boolean gameInitiated;
+	private boolean gameTimedOut;
+	private boolean gameKilled;
+	private boolean gameCleared;
 
 //	private long levelPausedEpochTime; // updated everytime pause is called
 //	private long levelPausedElapsedTime; // accumulated amount of time paused
@@ -49,14 +52,19 @@ public class CommandCenter {
 
 
 	public  void initGame(){
-		setLevel(1);
+		setLevel(0);
 		setScore(0);
-		setNumFalcons(3);
+		setNumFalcons(4);
 		spawnFalcon(true);
 		this.levelEpochTime = System.currentTimeMillis();
 		this.gameEpochTime = System.currentTimeMillis();
 		this.gameTime = 40000;
 		this.gameInitiated = false;
+		this.gameCleared = false;
+		this.gameKilled = false;
+		this.gameTimedOut = false;
+		this.gameTimedOut = false;
+		CommandCenter.getInstance().setGameInitiated(true);
 //		this.levelPausedEpochTime = 0;
 //		this.levelPausedElapsedTime = 0;
 //		this.elapsedTimeCounter = 0;
@@ -68,8 +76,12 @@ public class CommandCenter {
 		if (getNumFalcons() != 0) {
 			falShip = new Falcon();
 			opsList.enqueue(falShip, CollisionOp.Operation.ADD);
-			if (!bFirst)
-			    setNumFalcons(getNumFalcons() - 1);
+			if (!bFirst) {
+				setNumFalcons(getNumFalcons() - 1);
+			}
+		} else {
+			setGameKilled(true);
+			setGameTimedOut(false);
 		}
 		
 		Sound.playSound("shipspawn.wav");
@@ -206,6 +218,34 @@ public class CommandCenter {
 
 	public void setGameInitiated(boolean gameInitiated) {
 		this.gameInitiated = gameInitiated;
+	}
+
+	public boolean getGameTimedOut() {
+		return gameTimedOut;
+	}
+
+	public void setGameTimedOut(boolean gameTimedOut) {
+		this.gameTimedOut = gameTimedOut;
+	}
+
+	public boolean getGameKilled() {
+		return gameKilled;
+	}
+
+	public void setGameKilled(boolean gameKilled) {
+		this.gameKilled = gameKilled;
+	}
+
+	public boolean getGameCleared() {
+		return gameCleared;
+	}
+
+	public void setGameCleared(boolean gameCleared) {
+		this.gameCleared = gameCleared;
+	}
+
+	public long getGameEpochTime(){
+		return gameEpochTime;
 	}
 
 

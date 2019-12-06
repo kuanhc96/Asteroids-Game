@@ -98,4 +98,8 @@ public class NewShipFloater extends Sprite {
 		g.drawPolygon(getXcoords(), getYcoords(), dDegrees.length);
 	}
 
+	@Override
+	public Color getColor() {
+		return super.getColor();
+	}
 }

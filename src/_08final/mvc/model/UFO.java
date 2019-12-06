@@ -11,7 +11,7 @@ public class UFO extends Sprite {
     private int hits;
     private Random rShoot;
 
-    private static final int MAX_HITS = 3;
+    private static final int MAX_HITS = 5;
     public UFO() {
         super();
         setTeam(Team.FOE);
@@ -41,7 +41,7 @@ public class UFO extends Sprite {
         super.move();
         adjustAngle();
         int shoot = rShoot.nextInt(100);
-        if (shoot <= 1) { // shoot every 5 seconds ?????
+        if (shoot <= 4) { // shoot every 5 seconds ?????
             shoot();
         }
 

@@ -25,6 +25,8 @@ public class Falcon extends Sprite {
 	private boolean bTurningLeft = false;
 	
 	private int nShield;
+	private int nHyper;
+	private boolean upgraded;
 			
 	private final double[] FLAME = { 23 * Math.PI / 24 + Math.PI / 2,
 			Math.PI + Math.PI / 2, 25 * Math.PI / 24 + Math.PI / 2 };
@@ -113,6 +115,8 @@ public class Falcon extends Sprite {
 		nShield = 1;
 		bShield = false;
 		bFirst = true;
+		nHyper = 1;
+		upgraded = false;
 	}
 	
 	
@@ -154,7 +158,13 @@ public class Falcon extends Sprite {
 				setFadeValue(getFadeValue() + 1);
 			}
 		}
+
+		if (getUpgraded() && getFadeValue() < 255) {
+			setFadeValue((getFadeValue() + 3));
+		}
+
 		if (getFadeValue() == 255) {
+			setUpgraded(false);
 			setProtected(false);
 			setbFirst(false);
 		}
@@ -200,9 +210,29 @@ public class Falcon extends Sprite {
 		Color colShip;
 		if (getFadeValue() == 255) {
 			colShip = Color.white;
+			setColor(Color.BLUE);
 		} else {
-			colShip = new Color(adjustColor(getFadeValue(), 200), adjustColor(
-					getFadeValue(), 175), getFadeValue());
+			if (getColor() == Color.BLUE) { // Shield
+				colShip = new Color(adjustColor(getFadeValue(), 200), adjustColor(
+						getFadeValue(), 175), getFadeValue());
+			} else if (getColor() == Color.RED) { // +10 cruise shots
+				colShip = new Color(getFadeValue(), 0, 0);
+			} else if (getColor() == Color.GREEN) { // 1UP
+				System.out.println("r: " + adjustColor(getFadeValue(), 175) + " g: " + getFadeValue() + " b: " +  adjustColor(getFadeValue(), 200));
+				colShip = new Color(adjustColor(
+						getFadeValue(), 175), getFadeValue(), adjustColor(getFadeValue(), 200));
+			} else if (getColor() == Color.CYAN) { // blooming shots
+				System.out.println("r: " + 0 + " g: " + getFadeValue() + " b: " +  getFadeValue());
+				colShip = new Color(0, getFadeValue(), getFadeValue());
+			} else if (getColor() == Color.ORANGE) {
+				colShip = new Color(getFadeValue(), adjustColor(
+						getFadeValue(), 90), 0);
+			} else {
+				colShip = new Color(adjustColor(getFadeValue(), 200), adjustColor(
+						getFadeValue(), 175), getFadeValue());
+			}
+
+
 		}
 
 
@@ -299,6 +329,22 @@ public class Falcon extends Sprite {
 
 	public void setbFirst(boolean bFirst) {
 		this.bFirst = bFirst;
+	}
+
+	public int getnHyper() {
+		return nHyper;
+	}
+
+	public boolean getUpgraded() {
+		return upgraded;
+	}
+
+	public void setUpgraded(boolean upgraded) {
+		this.upgraded = upgraded;
+	}
+
+	public void setnHyper(int nHyper) {
+		this.nHyper = nHyper;
 	}
 
 	
