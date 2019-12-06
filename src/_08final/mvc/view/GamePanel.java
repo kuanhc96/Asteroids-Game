@@ -276,7 +276,7 @@ public class GamePanel extends Panel {
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4);
 
-		if (!CommandCenter.getInstance().getGameInitiated()) { // TODO
+		if (!CommandCenter.getInstance().getGameInitiated()) {
 			strDisplay = "use the arrow keys to turn and thrust";
 			grpOff.drawString(strDisplay,
 					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
@@ -348,7 +348,7 @@ public class GamePanel extends Panel {
 					(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 							+ nFontHeight + 240);
 
-			long timeElapsed = endTime - CommandCenter.getInstance().getGameEpochTime();
+			long timeElapsed = Math.abs(endTime - CommandCenter.getInstance().getGameEpochTime());
 			int minutes = (int)  timeElapsed / 1000 / 60;
 			int seconds = (int) timeElapsed / 1000 % 60;
 			int miliSeconds = (int) timeElapsed % 1000;
