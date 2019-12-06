@@ -61,8 +61,6 @@ public class CommandCenter {
 		this.gameTimedOut = false;
 		this.gameTimedOut = false;
 		CommandCenter.getInstance().setGameInitiated(true);
-		this.levelPausedEpochTime = 0;
-		this.levelPausedElapsedTime = 0;
 //		this.elapsedTimeCounter = 0;
 	}
 	
@@ -237,8 +235,5 @@ public class CommandCenter {
 		return gameEpochTime;
 	}
 
-	public void setLevelPausedEpochTime(long levelPausedEpochTime) {
-		this.levelPausedElapsedTime = levelPausedEpochTime;
-	}
 
 }
