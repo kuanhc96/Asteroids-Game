@@ -23,7 +23,7 @@
 
 
 The goal of this game is for the falcon, which the player controls, to last for all 6 
-currently available levels. To steer the falcon, use the left and right keys to rotate 
+currently available levels. Note that each level must be completed in a certain timeframe. To steer the falcon, use the left and right keys to rotate 
 clockwise and counterclockwise, respectively, and the up key to thrust in the direction
 in which the falcon is oriented. The space bar fires single bullets, which the falcon has
 infinite supply of. The F key allows the falcon to fire special weapons, the D key to

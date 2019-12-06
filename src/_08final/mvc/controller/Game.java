@@ -7,6 +7,7 @@ import _08final.sounds.Sound;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -29,6 +30,7 @@ public class Game implements Runnable, KeyListener {
 	private Thread thrAnim;
 	private int nLevel = 1;
 	private int nTick = 0;
+	private long pauseTime;
 
 	private boolean bMuted = true;
 	
@@ -492,7 +494,6 @@ public class Game implements Runnable, KeyListener {
 			switch (nKey) {
 			case PAUSE:
 				CommandCenter.getInstance().setPaused(!CommandCenter.getInstance().isPaused());
-
 				if (CommandCenter.getInstance().isPaused()) {
 					stopLoopingSounds(clpMusicBackground, clpThrust);
 

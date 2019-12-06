@@ -23,10 +23,6 @@ public class CommandCenter {
 	private boolean gameKilled;
 	private boolean gameCleared;
 
-//	private long levelPausedEpochTime; // updated everytime pause is called
-//	private long levelPausedElapsedTime; // accumulated amount of time paused
-//	private long elapsedTimeCounter;
-
 
 	// These ArrayLists with capacities set
 	private List<Movable> movDebris = new ArrayList<Movable>(300);
@@ -65,8 +61,8 @@ public class CommandCenter {
 		this.gameTimedOut = false;
 		this.gameTimedOut = false;
 		CommandCenter.getInstance().setGameInitiated(true);
-//		this.levelPausedEpochTime = 0;
-//		this.levelPausedElapsedTime = 0;
+		this.levelPausedEpochTime = 0;
+		this.levelPausedElapsedTime = 0;
 //		this.elapsedTimeCounter = 0;
 	}
 	
@@ -181,22 +177,15 @@ public class CommandCenter {
 
 	public void resetTimer() {
 		levelEpochTime = System.currentTimeMillis();
-//		levelPausedElapsedTime = 0;
-//		levelPausedEpochTime = 0;
+
 	}
 
 	public long getElapsedTime() {
 
-//		if (isPaused() && elapsedTimeCounter == 0) {
-//			levelPausedEpochTime = System.currentTimeMillis();
-//		}
-//
-//		if (isPaused()) {
-//			elapsedTimeCounter = System.currentTimeMillis() - levelPausedElapsedTime;
-//			//elapsedTimeCounter = 0;
-//		}
-//		levelPausedElapsedTime += elapsedTimeCounter;
-		return System.currentTimeMillis() - levelEpochTime; // - levelPausedElapsedTime;
+
+
+
+		return System.currentTimeMillis() - levelEpochTime ;
 
 	}
 
@@ -248,6 +237,8 @@ public class CommandCenter {
 		return gameEpochTime;
 	}
 
-
+	public void setLevelPausedEpochTime(long levelPausedEpochTime) {
+		this.levelPausedElapsedTime = levelPausedEpochTime;
+	}
 
 }
