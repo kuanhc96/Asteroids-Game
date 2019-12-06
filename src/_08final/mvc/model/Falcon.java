@@ -208,7 +208,7 @@ public class Falcon extends Sprite {
 
 		//does the fading at the beginning or after hyperspace
 		Color colShip;
-		if (getFadeValue() == 255) {
+		if (getFadeValue() >= 255) {
 			colShip = Color.white;
 			setColor(Color.BLUE);
 		} else {
