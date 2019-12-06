@@ -27,7 +27,8 @@ currently available levels. To steer the falcon, use the left and right keys to 
 clockwise and counterclockwise, respectively, and the up key to thrust in the direction
 in which the falcon is oriented. The space bar fires single bullets, which the falcon has
 infinite supply of. The F key allows the falcon to fire special weapons, the D key to
-initiate a "hyper", and the A key to initiate a shield. 
+initiate a "hyper", and the A key to initiate a shield. Other controls can be seen in
+the welcome page. (The pause utility does not work very well... you'll see.)
 
 Special weapons:
 There are two special weapons in this game: Blooming shots and Cruise missiles.

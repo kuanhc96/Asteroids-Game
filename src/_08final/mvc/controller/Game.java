@@ -453,10 +453,7 @@ public class Game implements Runnable, KeyListener {
 			}
 			if (CommandCenter.getInstance().getLevel() % 3 == 0) {
 				CommandCenter.getInstance().setGameTime(CommandCenter.getInstance().getGameTime() + 15000);
-			} else if (CommandCenter.getInstance().getLevel() % 4 == 0) {
 				CommandCenter.getInstance().setNumFalcons(CommandCenter.getInstance().getNumFalcons() + 2);
-			} else if (CommandCenter.getInstance().getLevel() % 2 == 0) {
-				CommandCenter.getInstance().getFalcon().setCruiseShots(CommandCenter.getInstance().getFalcon().getCruiseShots() + 5);
 			}
 
 		}
